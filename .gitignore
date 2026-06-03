@@ -47,3 +47,17 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# dissertation-rpkg-template additions
+ui/www/_book/
+ui/www/.quarto/
+ui/www/docs/
+docs/
+*.tex
+*.log
+*.aux
+*.toc
+*.lof
+*.lot
+*.out
+*.synctex.gz

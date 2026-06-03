@@ -1,0 +1,39 @@
+project:
+  type: book
+  output-dir: ../../docs
+
+book:
+  title: "{{thesis.workingTitle}}"
+  subtitle: "{{thesis.workingSubtitle}}"
+  author: "{{user.name}}"
+  date: today
+  chapters:
+    - chapters/00-front-matter.qmd
+    - chapters/01-introduction.qmd
+    - chapters/02-literature-review.qmd
+    - chapters/03-methodology.qmd
+    - chapters/04-results.qmd
+    - chapters/05-discussion.qmd
+    - chapters/06-conclusion.qmd
+    - chapters/99-back-matter.qmd
+  bibliography: references.bib
+  csl: apa.csl
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true
+  pdf:
+    documentclass: thesis
+    classoption: [oneside, 12pt]
+    pdf-engine: xelatex
+    keep-tex: true
+    include-in-header:
+      - dataimago.sty
+    mainfont: "Noto Sans"
+    sansfont: "Noto Sans"
+    mathfont: "Noto Sans Math"
+    geometry:
+      - margin=1in
+    fig-pos: H
