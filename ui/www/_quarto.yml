@@ -34,7 +34,11 @@ format:
     pdf-engine: xelatex
     keep-tex: true
     include-in-header:
-      - dataimago.sty
+      text: |
+        % Load dataimago.sty as a package. Do NOT use include-in-header file
+        % injection here — that inlines the .sty's \endinput into index.tex and
+        % truncates the document ("no legal \end found" / Emergency stop).
+        \usepackage{dataimago}
     mainfont: "Noto Sans"
     sansfont: "Noto Sans"
     mathfont: "Noto Sans Math"
