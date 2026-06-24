@@ -19,8 +19,8 @@ book:
     - chapters/05-discussion.qmd
     - chapters/06-conclusion.qmd
     - chapters/99-back-matter.qmd
-  bibliography: references.bib
-  csl: apa.csl
+
+bibliography: references.bib
 
 format:
   html:
