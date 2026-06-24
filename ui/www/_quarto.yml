@@ -38,6 +38,4 @@ format:
     mainfont: "Noto Sans"
     sansfont: "Noto Sans"
     mathfont: "Noto Sans Math"
-    geometry:
-      - margin=1in
     fig-pos: H
