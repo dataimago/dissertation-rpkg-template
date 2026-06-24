@@ -51,7 +51,7 @@ jobs:
         run: |
           git config user.name "dataimago-thesis-bot"
           git config user.email "thesis-bot@dataimago.ai"
-          git add docs/thesis.pdf
+          git add -f docs/thesis.pdf  # -f: docs/ is gitignored build output
           if ! git diff --staged --quiet; then
             git commit -m "chore(thesis): rebuild PDF [skip ci]"
             git push
