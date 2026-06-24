@@ -9,6 +9,9 @@ on:
 
 jobs:
   build:
+    # Skipped on the template repo itself — `ui/www` ships `{{...}}` placeholders
+    # until provisioning substitutes them. Mirrors the app-template's CI guard.
+    if: github.repository != 'dataimago/dissertation-rpkg-template'
     runs-on: ubuntu-latest
     permissions:
       contents: write

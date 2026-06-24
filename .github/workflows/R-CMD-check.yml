@@ -7,6 +7,10 @@ on:
 
 jobs:
   R-CMD-check:
+    # Skipped on the template repo itself — its DESCRIPTION ships `{{...}}`
+    # placeholders (an invalid R package name) until /api/generate substitutes
+    # them in a provisioned repo. Mirrors the app-template's CI guard.
+    if: github.repository != 'dataimago/dissertation-rpkg-template'
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
