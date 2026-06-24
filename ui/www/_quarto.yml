@@ -11,6 +11,7 @@ book:
   # (a book PDF is otherwise named from the title → the upload/commit missed it).
   output-file: thesis
   chapters:
+    - index.qmd
     - chapters/00-front-matter.qmd
     - chapters/01-introduction.qmd
     - chapters/02-literature-review.qmd
