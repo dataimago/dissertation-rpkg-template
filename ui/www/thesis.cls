@@ -71,7 +71,7 @@
 }
 
 % Abstract environment — committee-required preceding metadata block.
-\renewenvironment{abstract}{%
+\newenvironment{abstract}{%
   \clearpage
   \thispagestyle{empty}
   \begin{center}
