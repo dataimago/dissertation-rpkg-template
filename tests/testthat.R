@@ -1,4 +1,4 @@
 library(testthat)
-library(get(utils::packageName()))
+library({{rPackage.name}})
 
-test_check(utils::packageName())
+test_check("{{rPackage.name}}")

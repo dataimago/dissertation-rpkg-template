@@ -25,7 +25,8 @@
 \RequirePackage{xstring}
 
 % Margins — 1in default. Many institutions require 1.5in left for binding;
-% override via the `geometry` Quarto YAML option if needed.
+% Set margins here only; do NOT also set `geometry:` in _quarto.yml — that
+% reloads the package and triggers "Option clash for package geometry".
 \geometry{margin=1in}
 
 % Double-spacing by default; many institutions require this.
@@ -71,7 +72,7 @@
 }
 
 % Abstract environment — committee-required preceding metadata block.
-\renewenvironment{abstract}{%
+\newenvironment{abstract}{%
   \clearpage
   \thispagestyle{empty}
   \begin{center}
