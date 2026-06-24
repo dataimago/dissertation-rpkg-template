@@ -1,17 +1,11 @@
-Package: PLACEHOLDER-thesis-rpkg
-Version: 0.0-1.0
-Date: 2026-01-01
-Title: PLACEHOLDER Dissertation R Package
+Package: {{rPackage.name}}
+Version: 0.0.0.9000
+Title: Dissertation R Package and Thesis Build
 Description: R package supporting a dissertation provisioned via dissertation.ai.
-    Hosts the dissertation's methodological R code and the Quarto + XeLaTeX
-    thesis-PDF build chain at ui/www/. Generated from
-    dataimago/dissertation-rpkg-template; placeholders replaced at provision
-    time by dissertation.ai's /api/generate.
-Authors@R: c(
-    person(given = "Your", family = "Name",
-           email = "you@institution.edu",
-           role = c("aut", "cre")))
-Maintainer: Your Name <you@institution.edu>
+    Hosts the dissertation's methodological R code and the Quarto plus XeLaTeX
+    thesis-PDF build chain at ui/www/.
+Authors@R:
+    person("{{user.name}}", email = "{{user.email}}", role = c("aut", "cre"))
 Depends: R (>= 4.5)
 Imports:
     jsonlite (>= 1.9.0),
@@ -22,8 +16,8 @@ Suggests:
 Encoding: UTF-8
 Language: en-US
 License: MIT + file LICENSE
-URL: https://github.com/PLACEHOLDER/PLACEHOLDER-thesis-rpkg
-BugReports: https://github.com/PLACEHOLDER/PLACEHOLDER-thesis-rpkg/issues
+URL: https://github.com/{{user.githubUsername}}/{{rPackage.name}}
+BugReports: https://github.com/{{user.githubUsername}}/{{rPackage.name}}/issues
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

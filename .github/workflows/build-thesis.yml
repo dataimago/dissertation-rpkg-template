@@ -19,8 +19,16 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
 
       - uses: quarto-dev/quarto-actions/setup@v2
-      - name: Install TinyTeX
-        run: quarto install tinytex
+      # setup-tinytex installs TinyTeX AND puts `tlmgr` on PATH. The previous
+      # `quarto install tinytex` left `tlmgr` off PATH → "tlmgr: command not
+      # found" on the first real E2E run.
+      - uses: r-lib/actions/setup-tinytex@v2
+
+      - name: Install fonts the thesis uses (Noto family for XeLaTeX/fontspec)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-core fonts-noto-extra fonts-noto-cjk
+          fc-cache -f
 
       - name: Install thesis-class LaTeX packages
         run: |

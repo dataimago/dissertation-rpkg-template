@@ -7,6 +7,9 @@ book:
   subtitle: "{{thesis.workingSubtitle}}"
   author: "{{user.name}}"
   date: today
+  # Pin the single-file PDF name so build-thesis.yml finds `docs/thesis.pdf`
+  # (a book PDF is otherwise named from the title → the upload/commit missed it).
+  output-file: thesis
   chapters:
     - chapters/00-front-matter.qmd
     - chapters/01-introduction.qmd
