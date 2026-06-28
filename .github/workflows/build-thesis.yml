@@ -57,5 +57,21 @@ jobs:
           git add -f docs/thesis.pdf  # -f: docs/ is gitignored build output
           if ! git diff --staged --quiet; then
             git commit -m "chore(thesis): rebuild PDF [skip ci]"
-            git push
+            # Another push may have advanced the branch while this build ran
+            # (e.g. the author pushed again moments later). Rebase onto the
+            # latest remote before pushing so the commit-back doesn't fail with
+            # "Updates were rejected (fetch first)" — the race seen on rapid
+            # successive pushes. Retry a few times; fail loudly if it can't push.
+            pushed=false
+            for attempt in 1 2 3; do
+              if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push; then
+                pushed=true; break
+              fi
+              echo "commit-back attempt $attempt failed; retrying after rebase…"
+              sleep 3
+            done
+            if [ "$pushed" != true ]; then
+              echo "::error::could not push the rebuilt thesis PDF after 3 attempts"
+              exit 1
+            fi
           fi
