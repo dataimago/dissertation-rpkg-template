@@ -2,6 +2,8 @@
 
 > R package supporting {{user.name}}'s dissertation, "{{thesis.workingTitle}}", provisioned via [dissertation.ai](https://dissertation.ai).
 
+**📖 Website:** [{{user.githubUsername}}.github.io/{{rPackage.name}}](https://{{user.githubUsername}}.github.io/{{rPackage.name}}/) — the thesis as an HTML book, the latest thesis PDF, and the R package reference rendered from the roxygen docs. Published by `quarto-publish.yml` on every push (a maintainer or the provisioning flow must enable GitHub Pages, build type "GitHub Actions", once).
+
 This package is the **R-package half** of a two-repo dissertation environment. The NextJS app half lives at [`github.com/{{user.githubUsername}}/{{metadata.name}}`](https://github.com/{{user.githubUsername}}/{{metadata.name}}) and includes this package as a Git submodule at `packages/r-packages/{{rPackage.name}}/`.
 
 ## What's in this repo
@@ -15,6 +17,7 @@ This package is the **R-package half** of a two-repo dissertation environment. T
 | `ui/www/thesis.cls` | LaTeX thesis class (see `ui/www/THESIS-CLS-README.md` for the 3-mode strategy) |
 | `ui/www/references.bib` | BibTeX bibliography |
 | `.github/workflows/build-thesis.yml` | Renders thesis PDF on every push that touches `ui/www/` or `R/` |
+| `.github/workflows/quarto-publish.yml` | Publishes the HTML book + PDF + package reference to GitHub Pages |
 | `.github/workflows/R-CMD-check.yml` | R package CI |
 | `DESCRIPTION` | R package metadata |
 
