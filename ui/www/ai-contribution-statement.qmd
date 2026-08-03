@@ -1,0 +1,54 @@
+# AI Contribution and Authorship Statement {.unnumbered}
+
+<!-- This appendix discloses how AI systems contributed to the dissertation.
+     It ships in every dataimago-generated thesis because transparent
+     disclosure is core to AI-native scholarship. If your institution
+     forbids or does not require such a statement, delete this file and its
+     line under `appendices:` in `_quarto.yml`.
+
+     Replace every [bracketed prompt] with your specifics. Your repository's
+     AI assistant can draft this from the project's actual history (commit
+     log, wiki activity log, experiment registry) — ask it to keep the
+     statement factual and auditable, never aspirational. -->
+
+This dissertation represents the intellectual work of [author name] with
+substantive assistance from AI-based systems — [list the AI tools and
+models used] — integrated into [describe which phases: research design,
+implementation, analysis, writing] of the work.
+
+## Role of AI in the research and writing process {.unnumbered}
+
+[Enumerate the concrete contributions, one bullet per area. Be specific
+about what the AI did and what the author decided. Areas to consider:]
+
+- **Theoretical development**: [which ideas emerged in dialogue with AI,
+  and which are the author's own]
+- **Implementation**: [code the AI drafted or reviewed; the testing and
+  verification regime it worked under]
+- **Analysis**: [analyses the AI executed; who specified the designs;
+  what pre-registration or audit gates applied]
+- **Expository and editorial support**: [drafting, revision, and the
+  style specification in `writing/STYLE.md` under which prose was
+  produced]
+
+## Scope and oversight {.unnumbered}
+
+| Contribution area | AI role | Human oversight |
+|---|---|---|
+| [area] | [what the AI produced] | [how it was reviewed/verified] |
+
+[Describe the verification discipline: tests, registered analyses,
+committee review — whatever made AI output auditable rather than trusted.]
+
+## Authorship and responsibility {.unnumbered}
+
+Despite the substantive role of AI in this work, the author retains full
+responsibility for all claims, formulations, and conclusions presented
+herein. The AI systems are not listed as authors, consistent with
+prevailing norms from the International Committee of Medical Journal
+Editors (ICMJE) and leading scholarly publishers: they do not meet
+authorship criteria concerning accountability, consent, or the capacity
+to respond to review.
+
+[Add your institution's specific AI-use policy reference here, if one
+exists.]

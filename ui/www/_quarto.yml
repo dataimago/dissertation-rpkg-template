@@ -20,6 +20,8 @@ book:
     - chapters/05-discussion.qmd
     - chapters/06-conclusion.qmd
     - chapters/99-back-matter.qmd
+  appendices:
+    - ai-contribution-statement.qmd
 
 bibliography: references.bib
 
