@@ -44,6 +44,7 @@ The user's `dataimago-spec.yaml` lives in the **app repo** at `github.com/{{user
 
 - **Run `devtools::check()` before committing R-side changes** if you've touched `R/` or `DESCRIPTION` or `tests/`. R CMD check failures are blocking.
 - **Don't commit `_book/` or `.quarto/`** under `ui/www/` — those are build artifacts; they're in `.gitignore`.
+- **If `raw/manuscript/LOCKED.md` exists in the linked app repo, it governs.** The manuscript beside it is the author's finished dissertation, imported as authoritative v1.0. Chapter work here extends it — never regenerate, restructure, or replace it. Where that manuscript and anything in this package disagree, the manuscript wins.
 - **Don't commit secrets.** No API keys; no institutional credentials.
 
 ## Editing this CLAUDE.md
