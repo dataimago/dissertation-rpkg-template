@@ -8,14 +8,14 @@ Check your `dataimago-spec.yaml`'s `vertical.dissertation.thesis.classFile.type`
 
 - **`shipped`** — the framework's default (this file as-shipped). Works for many institutions; no action needed.
 - **`vendored`** — your institution provides an official `.cls`. Replace this `thesis.cls` with the institution-provided file. Commit + push; the next `build-thesis.yml` run will use it.
-- **`generated`** — your institution provides written formatting guidelines (committed to `<repo-root>/context/thesis-formatting/`). AI assistance in this repo will help iterate on `thesis.cls` to match those requirements. See "Iterating on a generated thesis.cls" below.
+- **`generated`** — your institution provides written formatting guidelines (attached during the interview; they are in your app repo's `raw/thesis-formatting/`). AI assistance in this repo will help iterate on `thesis.cls` to match those requirements. See "Iterating on a generated thesis.cls" below.
 
 ## Iterating on a generated `thesis.cls` (generated mode)
 
-Your formatting guidelines are at `context/thesis-formatting/<filename>`. Recommended workflow:
+Your formatting guidelines are in your app repo at `raw/thesis-formatting/<filename>`. Recommended workflow:
 
 1. **Open this repo in an AI-enabled editor** (Claude Code, Cursor, etc.).
-2. **Ask the AI:** *"Read `context/thesis-formatting/<filename>` and update `ui/www/thesis.cls` to match the institutional requirements."*
+2. **Ask the AI:** *"Read `raw/thesis-formatting/<filename>` in my app repo and update `ui/www/thesis.cls` to match the institutional requirements."*
 3. **Push your changes** — `build-thesis.yml` will rebuild the PDF.
 4. **Open the rebuilt PDF** at `docs/thesis.pdf`, compare to the institutional sample (if any), and iterate.
 
