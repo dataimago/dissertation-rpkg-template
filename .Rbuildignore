@@ -4,6 +4,7 @@
 ^\.git$
 ^\.gitattributes$
 ^\.gitignore$
+^AGENTS\.md$
 ^CLAUDE\.md$
 ^NEWS\.md$
 ^README\.md$

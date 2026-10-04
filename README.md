@@ -1,6 +1,6 @@
 # {{rPackage.name}}
 
-> R package supporting {{user.name}}'s dissertation, "{{thesis.workingTitle}}", provisioned via [dissertation.ai](https://dissertation.ai).
+> R package supporting {{user.name}}'s dissertation, "{{thesis.workingTitle}}", provisioned via [dissertation.ai](https://dissertation-ai.dataimago.ai).
 
 **📖 Website:** [{{user.githubUsername}}.github.io/{{rPackage.name}}](https://{{user.githubUsername}}.github.io/{{rPackage.name}}/) — the thesis as an HTML book, the latest thesis PDF, and the R package reference rendered from the roxygen docs. Published by `quarto-publish.yml` on every push (a maintainer or the provisioning flow must enable GitHub Pages, build type "GitHub Actions", once).
 
@@ -52,9 +52,9 @@ This R package + the dissertation app at `github.com/{{user.githubUsername}}/{{m
 
 ## Framework links
 
-- [dissertation.ai](https://dissertation.ai) — the Level-2 hub that provisioned this repo
-- [dataimago-rpkg](https://github.com/dataimago/dataimago-rpkg) — the R generator package that this repo's structure mirrors
-- [dataimago-design](https://github.com/dataimago/dataimago-design) — the design system + wiki
+- [dissertation.ai](https://dissertation-ai.dataimago.ai) — the hub that provisioned this repo
+- [dataimago](https://github.com/dataimago/dataimago) — the framework this package is built on
+- [dissertation-rpkg-template](https://github.com/dataimago/dissertation-rpkg-template) — the template this repo was made from
 
 ## License
 
