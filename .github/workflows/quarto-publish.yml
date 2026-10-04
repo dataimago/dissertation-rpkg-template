@@ -25,10 +25,36 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # A provisioned repo's FIRST commit is the raw template copy: DESCRIPTION
+  # still holds `{{...}}` placeholders until the hub's substitution commit
+  # lands seconds later. Running on that commit fails ("Malformed package
+  # name") and its PDF commit races the real one, leaving red marks on a
+  # brand-new repo. Skip it; the substitution commit runs everything.
+  guard:
+    if: github.repository != 'dataimago/dissertation-rpkg-template'
+    runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.check.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          sparse-checkout: DESCRIPTION
+          sparse-checkout-cone-mode: false
+      - id: check
+        run: |
+          if grep -q '{{' DESCRIPTION; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Template placeholders not filled in yet (provisioning in progress); skipping this run."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
   build-site:
+    needs: guard
     # Never run in the template repo itself.
     if: >-
-      github.repository != 'dataimago/dissertation-rpkg-template' &&
+      needs.guard.outputs.ready == 'true' &&
       (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     permissions:
@@ -59,7 +85,15 @@ jobs:
           quarto render --to html --profile web
 
       - name: Restore committed thesis PDF into the site
-        run: git checkout -- docs/thesis.pdf
+        # The very first publish can run before build-thesis has committed a
+        # PDF; publish the site without it rather than fail (it re-runs when
+        # the PDF lands, via workflow_run).
+        run: |
+          if git cat-file -e HEAD:docs/thesis.pdf 2>/dev/null; then
+            git checkout -- docs/thesis.pdf
+          else
+            echo "::notice::No committed thesis PDF yet; publishing the site without it."
+          fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

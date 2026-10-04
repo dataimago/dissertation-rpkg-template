@@ -6,11 +6,37 @@ on:
     branches: [main]
 
 jobs:
+  # A provisioned repo's FIRST commit is the raw template copy: DESCRIPTION
+  # still holds `{{...}}` placeholders until the hub's substitution commit
+  # lands seconds later. Running on that commit fails ("Malformed package
+  # name") and its PDF commit races the real one, leaving red marks on a
+  # brand-new repo. Skip it; the substitution commit runs everything.
+  guard:
+    if: github.repository != 'dataimago/dissertation-rpkg-template'
+    runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.check.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          sparse-checkout: DESCRIPTION
+          sparse-checkout-cone-mode: false
+      - id: check
+        run: |
+          if grep -q '{{' DESCRIPTION; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Template placeholders not filled in yet (provisioning in progress); skipping this run."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
   R-CMD-check:
+    needs: guard
     # Skipped on the template repo itself — its DESCRIPTION ships `{{...}}`
     # placeholders (an invalid R package name) until /api/generate substitutes
     # them in a provisioned repo. Mirrors the app-template's CI guard.
-    if: github.repository != 'dataimago/dissertation-rpkg-template'
+    if: needs.guard.outputs.ready == 'true'
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
