@@ -56,7 +56,15 @@ jobs:
       - name: Install fonts the thesis uses (Noto family for XeLaTeX/fontspec)
         run: |
           sudo apt-get update
-          sudo apt-get install -y fonts-noto-core fonts-noto-extra fonts-noto-cjk
+          sudo apt-get install -y fonts-noto-core fonts-noto-extra fonts-noto-cjk poppler-utils
+          # Ubuntu's Noto Sans Math (fonts-noto-core) is version 2.001, which has
+          # no OpenType MATH table, so unicode-math silently sets every equation
+          # in Latin Modern Math instead. Replace it with 3.000 (which has the
+          # table) from google/fonts, pinned by commit and checksum.
+          curl -fsSL -o /tmp/NotoSansMath-Regular.ttf \
+            https://raw.githubusercontent.com/google/fonts/dbd1ab6e65dc59bcda3ca8de9fd372f58f98e0af/ofl/notosansmath/NotoSansMath-Regular.ttf
+          echo "3f495fe933c06786e4d5f6d86b8ee70b6753a68ee3b9d87528726de0f6e2c47d  /tmp/NotoSansMath-Regular.ttf" | sha256sum -c -
+          sudo install -m 644 /tmp/NotoSansMath-Regular.ttf /usr/share/fonts/truetype/noto/NotoSansMath-Regular.ttf
           fc-cache -f
 
       - name: Install thesis-class LaTeX packages
@@ -100,4 +108,15 @@ jobs:
               echo "::error::could not push the rebuilt thesis PDF after 3 attempts"
               exit 1
             fi
+          fi
+
+      # Last, so the author still gets the PDF: the math-font fallback is
+      # silent, so check the result. A thesis whose math font is Noto Sans Math
+      # must not embed Latin Modern Math.
+      - name: Check the PDF's math font
+        run: |
+          if grep -q '^ *mathfont: *"\?Noto Sans Math' ui/www/_quarto.yml \
+             && pdffonts docs/thesis.pdf | grep -q LatinModernMath; then
+            echo "::error::docs/thesis.pdf sets its equations in Latin Modern Math, not Noto Sans Math. The runner's Noto Sans Math has no MATH table; see the font step above."
+            exit 1
           fi
