@@ -1,4 +1,4 @@
 library(testthat)
-library({{rPackage.name}})
+library({{rPackage.rName}})
 
-test_check("{{rPackage.name}}")
+test_check("{{rPackage.rName}}")

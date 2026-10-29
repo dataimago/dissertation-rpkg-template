@@ -1,4 +1,4 @@
-Package: {{rPackage.name}}
+Package: {{rPackage.rName}}
 Version: 0.0.0.9000
 Title: Dissertation R Package and Thesis Build
 Description: R package supporting a dissertation provisioned via dissertation.ai.
