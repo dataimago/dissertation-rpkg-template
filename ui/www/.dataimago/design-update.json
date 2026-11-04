@@ -1,0 +1,29 @@
+{
+  "targets": [
+    {
+      "name": "book",
+      "pages": [{ "name": "specimen", "path": "/specimen.html" }],
+      "build": {
+        "command": "cp .dataimago/specimen.md specimen.qmd && cp .dataimago/specimen-profile.yml _quarto-shots.yml && quarto render specimen.qmd --profile web,shots --to html && rm -rf _shots && cp -R ../../docs _shots",
+        "static": "_shots"
+      },
+      "dark": "quarto-toggle",
+      "elements": [
+        "body",
+        "#title-block-header .title",
+        "main h2",
+        "main h3",
+        "main p",
+        "main p a",
+        "blockquote",
+        "div.sourceCode",
+        ".callout",
+        "table",
+        "caption",
+        "#quarto-sidebar",
+        "div.sidebar-item-container",
+        ".nav-page a"
+      ]
+    }
+  ]
+}

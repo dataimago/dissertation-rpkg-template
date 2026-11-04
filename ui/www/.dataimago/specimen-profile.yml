@@ -1,0 +1,6 @@
+# Used only by the design-update comparison (design-update.json): CI copies
+# this to _quarto-shots.yml in a throwaway checkout, so the specimen renders
+# as an extra chapter of the web book. Quarto ignores files under .dataimago/.
+book:
+  chapters:
+    - specimen.qmd

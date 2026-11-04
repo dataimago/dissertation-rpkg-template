@@ -1,0 +1,32 @@
+/*-- scss:defaults --*/
+// This site's own layer over the synced theme. The synced files
+// (neutral-*.scss, fonts/) are never edited; what this site needs on top of
+// them goes here.
+//
+// Listed BEFORE the synced theme in _quarto.yml: Quarto emits the defaults of
+// later files first, so this block compiles after the theme's and can read
+// its $body-bg.
+//
+// The docked sidebar takes the page colour. Without this Quarto paints it
+// #fff in both themes and computes its link colours against white, so in
+// dark mode the site title read near-white on white (1.04:1). Remove once the
+// synced theme sets $sidebar-bg itself.
+$sidebar-bg: $body-bg !default;
+
+// Muted text (the previous/next chapter links, the page footer, Quarto's
+// --quarto-text-muted) takes the theme's secondary colour, which is the
+// content.secondary token. Without this it is Bootstrap's fixed #6c757d:
+// 4.0:1 on the light page and 3.9:1 on the dark one. Not !default: Quarto's
+// website layer sets it earlier, so only a plain assignment takes. Remove
+// once the synced theme sets $text-muted itself.
+$text-muted: $secondary;
+
+/*-- scss:rules --*/
+// Block quotes and captions take the secondary text colour. Quarto dims the
+// body colour at compile time instead, which turns the neutral palette's warm
+// tints olive (light) and amber (dark). The synced theme maps figcaption to
+// the token; this covers the rest. Remove once the synced theme does.
+.blockquote, blockquote, caption, .table-caption, .figure-caption,
+.panel-caption, .subfigure-caption {
+  color: var(--color-content-secondary);
+}

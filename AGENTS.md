@@ -51,6 +51,7 @@ The author's `dataimago-spec.yaml` lives in the **app repo** (the dissertation's
 - **Run `devtools::check()` before committing R-side changes** if you've touched `R/` or `DESCRIPTION` or `tests/`. R CMD check failures are blocking.
 - **Don't commit `_book/` or `.quarto/`** under `ui/www/` — those are build artifacts; they're in `.gitignore`.
 - **If `raw/manuscript/LOCKED.md` exists in the linked app repo, it governs.** The manuscript beside it is the author's finished dissertation, imported as authoritative v1.0. Chapter work here extends it — never regenerate, restructure, or replace it. Where that manuscript and anything in this package disagree, the manuscript wins.
+- **Don't hand-edit the web book's synced design files** (`ui/www/assets/neutral-*.scss`, `ui/www/assets/fonts/`; each text file's first line says "do not edit"). Put a site-specific rule in `ui/www/assets/site.scss`; upgrade or opt out as `README.md` ("The site's look") describes.
 - **Don't commit secrets.** No API keys; no institutional credentials.
 - **Never put identifiable personal data in git** (participant data, names with addresses, IDs). Analysis data that identifies people stays out of this public-by-default repository.
 - **Public repository + unpublished work = warn first.** If this repository is public and holds unpublished chapters or results, tell the author before pushing and show them how to make it private (Settings → General → Danger Zone → Change visibility).

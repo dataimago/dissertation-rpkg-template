@@ -1,0 +1,27 @@
+/* @dataimago/css-neutral@0.1.0-alpha.20 dist/fonts/greek/fonts.css · sha256:a79d666643da90c852dfcde96c8d5cd5237a4cf4f0d3d5edc16f971c3a52b704 · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.20 dataimago-sync */
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./noto-sans.woff2") format("woff2");
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./noto-sans-italic.woff2") format("woff2");
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+@font-face {
+  font-family: "Noto Sans Mono";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./noto-sans-mono.woff2") format("woff2");
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
