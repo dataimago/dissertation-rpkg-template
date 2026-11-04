@@ -1,12 +1,346 @@
-/*-- scss:defaults --*/
-// Neutral identity, dark: interactive accent ink-200 per the ADR.
-// Values derived from @dataimago/tokens-neutral@0.1.0-alpha.7.
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Sans+Math&display=swap');
+// @dataimago/css-neutral@0.1.0-alpha.20 dist/quarto/neutral-dark.scss · sha256:09d6b80fcaebb194c8ec77186bc7c7ce9a415c8fb535f9a75e35d7ed09d43e59 · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.20 dataimago-sync
+// neutral dark theme for Quarto 1.11 — generated from the design tokens (tools/formats/quarto.mjs).
+// Bootstrap Sass variables are compile-time sRGB; runtime colours come from the custom properties below.
 
-$font-family-sans-serif: "Noto Sans", "Fira Sans", system-ui, sans-serif;
-$body-bg: #14140f;      // stone-900
-$body-color: #ededeb;   // stone-100
-$link-color: #d6d3d1;   // ink-200
-$primary: #d6d3d1;      // ink-200
-$code-color: #dcdcda;   // stone-200
-$code-bg: #292927;      // stone-800
+/*-- scss:defaults --*/
+$body-bg: #141410 !default;
+$body-color: #fdf9f2 !default;
+$headings-color: #fdf9f2 !default;
+$navbar-bg: #141410 !default;
+$link-color: #d6d3d1 !default;
+$link-hover-color: #a8a29e !default;
+$code-color: #d6d3d1 !default;
+$code-bg: #1c1917 !default;
+$pre-color: #fdf9f2 !default;
+$border-color: #7d7b76 !default;
+$primary: #d6d3d1 !default;
+$secondary: #a8a29e !default;
+$success: #009e73 !default;
+$info: #d6d3d1 !default;
+$warning: #e69f00 !default;
+$danger: #ef5350 !default;
+$callout-color-note: #d6d3d1 !default;
+$callout-color-tip: #009e73 !default;
+$callout-color-important: #ef5350 !default;
+$callout-color-caution: #e69f00 !default;
+$callout-color-warning: #e69f00 !default;
+$font-family-sans-serif: Noto Sans, Noto Sans Math, system-ui, sans-serif !default;
+$font-family-monospace: Noto Sans Mono, SF Mono, Monaco, Inconsolata, monospace !default;
+$headings-font-family: Noto Sans, Noto Sans Math, system-ui, sans-serif !default;
+$headings-font-weight: 500 !default;
+$h2-font-size: 1.875rem !default;
+$web-font-path: false !default;
+
+/*-- scss:rules --*/
+// ── Design tokens (contract custom properties) ───────────────────────
+:root {
+  --color-palette-ink-50: #f5f5f4;
+  --color-palette-ink-100: #e7e5e4;
+  --color-palette-ink-200: #d6d3d1;
+  --color-palette-ink-300: #a8a29e;
+  --color-palette-ink-400: #78716c;
+  --color-palette-ink-500: #57534e;
+  --color-palette-ink-600: #44403c;
+  --color-palette-ink-700: #292524;
+  --color-palette-ink-800: #1c1917;
+  --color-palette-ink-900: #0c0a09;
+  --color-palette-stone-50: #f7f7f6;
+  --color-palette-stone-100: #ededeb;
+  --color-palette-stone-200: #dcdcda;
+  --color-palette-stone-300: #c1c1bf;
+  --color-palette-stone-400: #a0a0a0;
+  --color-palette-stone-500: #7c7c7c;
+  --color-palette-stone-600: #5e5e5c;
+  --color-palette-stone-700: #424240;
+  --color-palette-stone-800: #292927;
+  --color-palette-stone-900: #14140f;
+  --color-palette-paper-50: #fefdfb;
+  --color-palette-paper-100: #fdf9f2;
+  --color-palette-paper-200: #faf2e3;
+  --color-palette-paper-300: #f5e8cf;
+  --color-palette-paper-400: #edd9b3;
+  --color-palette-paper-500: #e0c088;
+  --color-functional-success: #009E73;
+  --color-functional-warning: #E69F00;
+  --color-functional-error: #ef5350;
+  --color-functional-info: #d6d3d1;
+  --transition-quick: 0.15s ease;
+  --transition-standard: 0.25s ease-in-out;
+  --transition-smooth: 0.35s ease;
+  --transition-logo: 0.3s;
+  --gradient-video-poster: linear-gradient(135deg, #2b3a4a, #1f2a1f 60%, #3b2f1c);
+  --motion-enter: 200ms;
+  --motion-exit: 120ms;
+  --motion-ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --motion-ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  --motion-duration-120: 120ms;
+  --motion-duration-160: 160ms;
+  --motion-duration-200: 200ms;
+  --motion-duration-250: 250ms;
+  --motion-duration-300: 300ms;
+  --font-family-sans: Noto Sans, Noto Sans Math, system-ui, sans-serif;
+  --font-family-mono: Noto Sans Mono, SF Mono, Monaco, Inconsolata, monospace;
+  --font-family-display: var(--font-family-display-editorial);
+  --font-family-display-editorial: Noto Sans, Noto Sans Math, system-ui, sans-serif;
+  --font-family-display-documentation: Noto Sans, Noto Sans Math, system-ui, sans-serif;
+  --font-family-brand: Noto Sans, system-ui, sans-serif;
+  --font-family-math: Noto Sans Math, math;
+  --font-size-micro: 0.75rem;
+  --font-size-small: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-readable: 1.125rem;
+  --font-size-emphasis: 1.25rem;
+  --font-size-heading-small: 1.5rem;
+  --font-size-heading-medium: 1.875rem;
+  --font-size-heading-large: 2.25rem;
+  --font-size-heading-xl: 3rem;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-heading-h1: var(--font-weight-semibold);
+  --font-weight-heading-h2: var(--font-weight-semibold);
+  --font-weight-heading-h3: var(--font-weight-medium);
+  --font-weight-heading-h4: var(--font-weight-normal);
+  --font-weight-heading-h5: var(--font-weight-normal);
+  --font-weight-heading-h6: var(--font-weight-normal);
+  --font-weight-heading-subtitle: var(--font-weight-semibold);
+  --font-style-normal: normal;
+  --font-style-italic: italic;
+  --font-style-oblique: oblique;
+  --font-lineHeight-tight: 1.25;
+  --font-lineHeight-normal: 1.5;
+  --font-lineHeight-relaxed: 1.625;
+  --font-feature-settings-display: "normal";
+  --font-feature-settings-body: "normal";
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --color-dataviz-okabe-ito-orange: #E69F00;
+  --color-dataviz-okabe-ito-sky-blue: #56B4E9;
+  --color-dataviz-okabe-ito-bluish-green: #009E73;
+  --color-dataviz-okabe-ito-yellow: #F0E442;
+  --color-dataviz-okabe-ito-blue: #0072B2;
+  --color-dataviz-okabe-ito-vermillion: #D55E00;
+  --color-dataviz-okabe-ito-reddish-purple: #CC79A7;
+  --color-dataviz-categorical-1: #E69F00;
+  --color-dataviz-categorical-2: #56B4E9;
+  --color-dataviz-categorical-3: #009E73;
+  --color-dataviz-categorical-4: #F0E442;
+  --color-dataviz-categorical-5: #0072B2;
+  --color-dataviz-categorical-6: #D55E00;
+  --color-dataviz-categorical-7: #CC79A7;
+  --color-dataviz-sgpc-bucket-very-low: #D55E00;
+  --color-dataviz-sgpc-bucket-low: #E69F00;
+  --color-dataviz-sgpc-bucket-typical: #56B4E9;
+  --color-dataviz-sgpc-bucket-high: #009E73;
+  --color-dataviz-sgpc-bucket-very-high: #0072B2;
+}
+
+:root, body.quarto-dark, [data-bs-theme="dark"] {
+  --color-surface-page: #141410;
+  --color-surface-page-scrolled: #141410;
+  --color-surface-elevated: #1c1917;
+  --color-surface-sunken: #0c0a09;
+  --color-surface-navbar: #141410;
+  --color-surface-navbar-scrolled: #141410;
+  --color-surface-code: #1c1917;
+  --color-surface-scrim: rgba(20, 20, 16, 0.85);
+  --color-surface-scrim-solid: rgba(20, 20, 16, 0.92);
+  --color-surface-print: #f7f7f6;
+  --color-surface-play-disc: rgba(247, 247, 246, 0.92);
+  --color-surface-media: #000000;
+  --color-border-subtle: rgba(253, 249, 242, 0.45);
+  --color-border-moderate: rgba(253, 249, 242, 0.60);
+  --color-border-strong: rgba(253, 249, 242, 0.75);
+  --color-border-card: rgba(253, 249, 242, 0.60);
+  --color-border-code: #292524;
+  --color-border-on-scrim-focus: #f7f7f6;
+  --color-border-print: rgba(12, 10, 9, 0.45);
+  --color-content-primary: #fdf9f2;
+  --color-content-secondary: #a8a29e;
+  --color-content-muted: #89827d;
+  --color-content-inverse: #0c0a09;
+  --color-content-on-scrim: #f7f7f6;
+  --color-content-on-print: #14140f;
+  --color-interactive-primary: #d6d3d1;
+  --color-interactive-hover: #a8a29e;
+  --color-interactive-accent: #d6d3d1;
+  --color-interactive-focus: #d6d3d1;
+  --color-state-success: #009E73;
+  --color-state-warning: #E69F00;
+  --color-state-error: #ef5350;
+  --color-state-info: #d6d3d1;
+  --contrast-high: rgb(237, 237, 235);
+  --contrast-readable: rgb(237, 237, 235);
+  --contrast-medium: #83838f;
+  --contrast-subtle: #83838f;
+  --shadow-subtle: 0 1px 2px 0 rgb(237 237 235 / 0.03);
+  --shadow-moderate: 0 4px 6px -1px rgb(237 237 235 / 0.05);
+  --shadow-prominent: 0 10px 15px -3px rgb(237 237 235 / 0.4);
+  --shadow-figure-plate-hover: 0 4px 12px rgb(0 0 0 / 0.5);
+  --shadow-figure-plate-active: 0 2px 8px rgb(0 0 0 / 0.35);
+  --shadow-lift: 0 -8px 24px rgb(0 0 0 / 0.30);
+  --shadow-sheet: 0 -8px 24px rgb(0 0 0 / 0.18);
+  --shadow-float: 0 1px 2px rgb(0 0 0 / 0.40), 0 4px 14px rgb(0 0 0 / 0.35);
+  --shadow-print: 0 1px 3px rgb(0 0 0 / 0.25);
+  --border-subtle: rgba(237, 237, 235, 0.47);
+  --border-moderate: rgba(237, 237, 235, 0.63);
+  --border-focus: #4FC3F7;
+  --navigation-hover-background: rgba(237, 237, 235, 0.05);
+  --navigation-active-background: rgba(237, 237, 235, 0.1);
+  --color-dataviz-okabe-ito-black: #FDF9F2;
+  --color-dataviz-categorical-8: #FDF9F2;
+  --color-dataviz-uncertainty-outer: #333333;
+  --color-dataviz-uncertainty-union: #6B6B6B;
+  --color-dataviz-uncertainty-inner: #D6D6D6;
+  --color-dataviz-map-ocean: #042438;
+}
+
+// ── Quarto chrome → tokens ──────────────────────────────────────────────
+body {
+  background-color: var(--color-surface-page);
+  color: var(--color-content-primary);
+}
+
+h1, h2, h3, h4, h5, h6, .title {
+  color: var(--color-content-primary);
+  font-feature-settings: var(--font-feature-settings-display);
+}
+
+// Navbar chrome is brand voice: Josefin through the editorial variable (never the
+// Futura brand token). Tagged-language rules in lang.css still switch links to Noto;
+// the brand is never translated (display-family-split).
+.navbar-brand, .navbar-title, .navbar-nav .nav-link, .navbar-nav .dropdown-item {
+  font-family: var(--font-family-display-editorial);
+}
+
+math { font-family: var(--font-family-math); }
+
+// Links in running text are underlined: interactive.primary is about 1.9:1
+// against body text in light mode, so colour cannot be the only cue (WCAG 1.4.1).
+main.content :is(p, li, dd, td, blockquote, figcaption, .callout-body) a {
+  color: var(--color-interactive-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+main.content :is(p, li, dd, td, blockquote, figcaption, .callout-body) a:hover {
+  color: var(--color-interactive-hover);
+}
+
+// Navigation and the outline stay plain.
+#TOC a, nav a, .sidebar a, .navbar a, a.footnote-ref, a.anchorjs-link {
+  text-decoration: none;
+}
+
+:not(pre) > code {
+  color: var(--color-interactive-accent);
+  background-color: var(--color-surface-code);
+}
+
+pre, div.sourceCode {
+  background-color: var(--color-surface-code);
+  border: 1px solid var(--color-border-code);
+}
+
+// Unhighlighted blocks (fenced text, chunk output) take Bootstrap's pre colour, which Quarto compiles to #000:
+// invisible on the dark card. A bare element selector, so the syntax-highlighting sheet still colours
+// highlighted blocks (2026-11-03).
+pre {
+  color: var(--color-content-primary);
+}
+
+// References run together when the CSL style asks for entry-spacing 0 (APA does): Pandoc writes the entries as
+// bare divs and gives them an inline margin of entry-spacing em, which is 0 there. Half a line between them
+// (line-height 1.5), as the PDF format does (LIwLD author review, 2026-11-03). Only for entry-spacing 0, on
+// the bibliography's own entries: a style that asks for spacing keeps it, and Quarto's citation hover popups
+// (also .csl-entry) are untouched.
+div.csl-bib-body[data-entry-spacing="0"] > div.csl-entry {
+  margin-bottom: 0.75em;
+}
+
+// A long unbroken URL in a reference pushed the LIwLD page 180px wider than a 1512px window (2026-11-03).
+// anywhere breaks only a run that cannot fit on its line, so ordinary words wrap as before; it also shrinks
+// the entry's min-content width, which break-word would not. The hover popups (also .csl-entry) get it too.
+div.csl-entry {
+  overflow-wrap: anywhere;
+}
+
+// Quarto themes its popups as [data-theme~="quarto"] at compile time ($body-bg);
+// match that specificity so the runtime token wins.
+.tippy-box, .tippy-box[data-theme~="quarto"] {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-content-primary);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.tippy-box[data-theme~="quarto"] > .tippy-backdrop {
+  background-color: var(--color-surface-elevated);
+}
+
+.callout {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border-subtle);
+}
+
+.column-margin, .margin-aside, figcaption {
+  color: var(--color-content-secondary);
+}
+
+// Elevated cards carry an edge: in dark mode surface.elevated is about 1.06:1
+// against surface.page, so a card without one disappears.
+.di-elevated, div.abstract {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+}
+
+// ===== THEME TOGGLE STYLING =====
+// Dark theme - show sun icon (switch to light)
+
+.quarto-color-scheme-toggle .bi::before {
+  display: inline-block !important;
+  height: 1rem !important;
+  width: 1rem !important;
+  content: "" !important;
+  vertical-align: -0.125em !important;
+  background-repeat: no-repeat !important;
+  background-size: 1rem 1rem !important;
+  background-color: transparent !important;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%2383838F" class="bi bi-sun" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>') !important;
+  transition: background-image 0.25s ease;
+}
+
+.quarto-color-scheme-toggle:hover .bi::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23EDEDE8" class="bi bi-sun" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>') !important;
+  transition: background-image 0.25s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quarto-color-scheme-toggle .bi::before {
+    transition: none !important;
+  }
+}

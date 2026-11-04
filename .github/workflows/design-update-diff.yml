@@ -1,0 +1,39 @@
+# dataimago-design-update-caller: dissertation-rpkg-template
+#
+# The design-update visual comparison for this template's web book
+# (registry entry dissertation-rpkg-template, path ui/www). When dataimago-design
+# releases, it opens a PR here that bumps ui/www/.dataimago/design.json and
+# re-syncs; this job screenshots the book before and after and comments on the
+# PR. Copied from dataimago-design's tools/design-update/reference-caller.yml;
+# every job lives in the reusable workflow.
+#
+# Template machinery only. A repository created from this template is never
+# enrolled, so the job below never runs there (the if checks both the
+# repository and the update branch). Safe to delete in your own repository.
+#
+# No branches: filter. On pull_request it matches the BASE branch; the
+# job-level if selects this entry's update branch instead. Post pushes the
+# screenshots to an orphan branch and comments, hence contents: write and
+# pull-requests: write; the capture job is narrowed to contents: read inside
+# the reusable workflow.
+
+name: 🎨 Design update diff
+
+on:
+  pull_request:
+
+permissions: {}
+
+jobs:
+  design-update-diff-dissertation-rpkg-template:
+    if: >-
+      github.repository == 'dataimago/dissertation-rpkg-template' &&
+      github.head_ref == 'dataimago/design-update/dissertation-rpkg-template'
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: dataimago/dataimago-design/.github/workflows/design-update-diff.yml@design-update-diff/v1
+    with:
+      entry-id: dissertation-rpkg-template
+      path: ui/www
+      quarto-version: 1.11.9

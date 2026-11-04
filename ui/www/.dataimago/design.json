@@ -1,0 +1,17 @@
+{
+  "package": "@dataimago/css-neutral",
+  "version": "0.1.0-alpha.20",
+  "outputs": {
+    "quarto/neutral-light.scss": "assets/",
+    "quarto/neutral-dark.scss": "assets/",
+    "fonts/latin/": "assets/fonts/latin/",
+    "fonts/latin-ext/": "assets/fonts/latin-ext/",
+    "fonts/vietnamese/": "assets/fonts/vietnamese/",
+    "fonts/greek/": "assets/fonts/greek/",
+    "fonts/greek-ext/": "assets/fonts/greek-ext/",
+    "fonts/cyrillic/": "assets/fonts/cyrillic/",
+    "fonts/cyrillic-ext/": "assets/fonts/cyrillic-ext/",
+    "fonts/math/": "assets/fonts/math/",
+    "fonts/lang.css": "assets/fonts/"
+  }
+}

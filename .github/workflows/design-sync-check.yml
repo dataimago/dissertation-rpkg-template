@@ -1,0 +1,42 @@
+name: Design sync check
+
+# The web book's theme and fonts (ui/www/assets/neutral-*.scss and
+# ui/www/assets/fonts/) are copied from a pinned @dataimago/css-neutral release by
+# dataimago-sync, at the version ui/www/.dataimago/design.json names. This check
+# fails when one of them was edited by hand or is missing, so the site keeps
+# matching the release it says it uses.
+#
+# Staying synced is your choice. To take the site's look your own way, delete
+# ui/www/.dataimago/design.json: this check then skips, and the files are yours
+# to edit. To upgrade instead, see README.md ("The site's look").
+
+on:
+  pull_request:
+    paths:
+      - 'ui/www/**'
+      - '.github/workflows/design-sync-check.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ui/www/**'
+      - '.github/workflows/design-sync-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Check the synced design files
+        working-directory: ui/www
+        run: |
+          if [ ! -f .dataimago/design.json ]; then
+            echo "No ui/www/.dataimago/design.json: the site's look is not synced, nothing to check."
+            exit 0
+          fi
+          pkg=$(node -p "require('./.dataimago/design.json').package")
+          version=$(node -p "require('./.dataimago/design.json').version")
+          npx --yes -p "$pkg@$version" dataimago-sync --check

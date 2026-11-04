@@ -11,3 +11,4 @@
 ^docs$
 ^ui/www/_book$
 ^ui/www/\.quarto$
+^ui/www/\.dataimago$

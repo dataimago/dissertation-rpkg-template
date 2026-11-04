@@ -5,6 +5,12 @@ book:
   appendices:
     - r-package.qmd
 
+# The fonts' CSS loads the .woff2 files beside it at run time; Quarto only
+# publishes them when listed here.
+project:
+  resources:
+    - assets/fonts/**
+
 # Neutral identity for the published HTML (tokens-neutral-sibling ADR):
 # Level-3 property -- Noto Sans, ink/stone/paper, no dataimago house look.
 # The PDF render (no profile) is untouched.
@@ -19,9 +25,29 @@ language:
 
 format:
   html:
+    # The theme and the fonts are synced from @dataimago/css-neutral by
+    # dataimago-sync, at the version .dataimago/design.json pins. Never edit
+    # them by hand: to upgrade, change the version there and re-run the sync
+    # (README.md, "The site's look"). The fonts are served from this site,
+    # not from Google; the browser downloads only the scripts a page uses.
+    # site.scss is this site's own layer; it is listed first on purpose (see
+    # the file).
     theme:
-      light: assets/neutral-light.scss
-      dark: assets/neutral-dark.scss
+      light: [assets/site.scss, assets/neutral-light.scss]
+      dark: [assets/site.scss, assets/neutral-dark.scss]
+    css:
+      - assets/fonts/latin/fonts.css
+      - assets/fonts/latin-ext/fonts.css
+      - assets/fonts/vietnamese/fonts.css
+      - assets/fonts/greek/fonts.css
+      - assets/fonts/greek-ext/fonts.css
+      - assets/fonts/cyrillic/fonts.css
+      - assets/fonts/cyrillic-ext/fonts.css
+      - assets/fonts/math/fonts.css
+      - assets/fonts/lang.css
+    # Native MathML, set in the synced Noto Sans Math. MathJax would fetch
+    # its own fonts from the network.
+    html-math-method: mathml
     # Accessibility layer for Quarto's generated chrome -- see the comments in
     # each file (wi-20260905-at-skip-link, wi-20260905-at-landmark-roles).
     # HTML-only by construction: this overlay never reaches the PDF render.
