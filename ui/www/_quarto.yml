@@ -31,6 +31,9 @@ format:
     toc: true
     code-fold: true
   pdf:
+    # The framework default class (ui/www/thesis.cls). For a "shipped" class,
+    # set documentclass, classoption and pdf-engine from its registry entry;
+    # see THESIS-CLS-README.md ("Setting up a shipped class").
     documentclass: thesis
     classoption: [oneside, 12pt]
     pdf-engine: xelatex

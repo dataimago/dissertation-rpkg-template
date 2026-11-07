@@ -1,9 +1,11 @@
 %%
 %% thesis.cls — framework default thesis class for dissertation.ai-provisioned dissertations.
 %%
-%% This is the "shipped" mode default per the 3-mode strategy documented in
-%% `THESIS-CLS-README.md`. If your institution provides an official .cls or
-%% publishes formatting guidelines, replace or refine this file accordingly.
+%% This is the framework's generic default: the starting point for "generated"
+%% mode, which tailors it to your institution's formatting guidelines. It is
+%% not what "shipped" means: a shipped class comes from the thesis-class
+%% registry and replaces this file. If your institution provides an official
+%% .cls ("vendored"), replace this file with it. See `THESIS-CLS-README.md`.
 %%
 %% Built on the `book` document class with thesis-appropriate defaults +
 %% macros for title page, signature page, and front-/main-/back-matter
