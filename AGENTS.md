@@ -32,7 +32,11 @@ The `ui/www/` Quarto root follows the dataimago framework's convention for R pac
 
 - **"Edit chapter X"** — work in `ui/www/chapters/X.qmd`. Changes trigger `build-thesis.yml`.
 - **"Add a citation"** — append a BibTeX entry to `ui/www/references.bib`; cite in chapter via `[@bibtex-key]`.
-- **"Change thesis formatting"** — see `ui/www/THESIS-CLS-README.md`. For generated mode, read the institution's guidelines from the app repo's `raw/thesis-formatting/` and iterate on `ui/www/thesis.cls`.
+- **"Change thesis formatting"** — see `ui/www/THESIS-CLS-README.md`. The mode is the app repo spec's `vertical.dissertation.thesis.classFile.type`:
+  - `shipped`: the registry has a class for the author's institution, used as-is. Follow "Setting up a shipped class" in `ui/www/THESIS-CLS-README.md`: read `vertical.dissertation.institution.name` from the spec, look it up in `https://raw.githubusercontent.com/dataimago/dissertation-thesis-classes/main/registry.json`, download the entry's `path` and `companions` from the same base into `ui/www/`, set `documentclass` / `classoption` / `pdf-engine` in `ui/www/_quarto.yml` from the entry, and commit the files. The framework default `thesis.cls` is never the shipped class. If no entry matches, tell the author plainly and offer `generated`.
+  - `vendored`: the author provides their institution's own `.cls`; it replaces `ui/www/thesis.cls`.
+  - `generated`: start from the framework default `ui/www/thesis.cls` and tailor it to the institution's guidelines in the app repo's `raw/thesis-formatting/`.
+  - CI (`build-thesis.yml`) builds only from committed files. Never make it download a class from the registry.
 - **"Add an R function for my methodology"** — create `R/<descriptive-name>.R`, roxygen-document, run `devtools::document()` locally, add a test in `tests/testthat/test-<name>.R`.
 - **"Why does my thesis PDF look weird?"** — check the latest `build-thesis.yml` run; common issues: missing LaTeX packages (add to the `tlmgr install` line), Quarto YAML syntax errors, undefined references.
 
