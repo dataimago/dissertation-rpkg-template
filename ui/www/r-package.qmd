@@ -11,7 +11,7 @@ repo_url <- sub(",.*$", "", desc[1, "URL"])
 ```
 
 `r sprintf("**%s** (v%s)", pkg, ver)` is the computational core of this
-dissertation: the methodological R code, its tests, and the Quarto + XeLaTeX
+dissertation: the methodological R code, its tests, and the Quarto + LuaLaTeX
 thesis build live together in one package, developed and versioned
 independently of the dissertation's web application.
 

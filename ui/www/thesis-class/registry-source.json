@@ -1,0 +1,22 @@
+{
+  "registry": "dataimago/dissertation-thesis-classes",
+  "commit": "aae193c5c51fd802a62ecb289045f715ad092bdd",
+  "class": "dataimago-thesis",
+  "classVersion": "0.1.0 (2026-11-08)",
+  "profiles": [
+    "house"
+  ],
+  "files": {
+    "thesis-class/dataimago-thesis.cls": "classes/dataimago-thesis/dataimago-thesis.cls",
+    "thesis-class/thesis-profile.lua": "classes/dataimago-thesis/thesis-profile.lua",
+    "thesis-class/thesis-divs.lua": "classes/dataimago-thesis/thesis-divs.lua",
+    "thesis-class/doc-class.tex": "classes/dataimago-thesis/doc-class.tex",
+    "thesis-class/title.tex": "classes/dataimago-thesis/title.tex",
+    "thesis-class/before-body.tex": "classes/dataimago-thesis/before-body.tex",
+    "thesis-class/toc.tex": "classes/dataimago-thesis/toc.tex",
+    "thesis-class/fonts.latex": "classes/dataimago-thesis/fonts.latex",
+    "thesis-class/font-settings.latex": "classes/dataimago-thesis/font-settings.latex",
+    "profiles/house.yaml": "profiles/house.yaml",
+    "profiles/house.cfg": "profiles/house.cfg"
+  }
+}

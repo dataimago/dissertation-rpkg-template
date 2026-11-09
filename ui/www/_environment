@@ -1,0 +1,5 @@
+# Quarto reads this file when it renders from this folder (locally and in CI).
+# It puts the house class (thesis-class/) and the compiled profiles (profiles/) on
+# the TeX search path, so no copy of them is needed next to the PDF build.
+# Keep the trailing ":": it keeps the default paths.
+TEXINPUTS=./thesis-class//:./profiles//:

@@ -4,8 +4,11 @@ title: "Back matter"
 
 # References {.unnumbered}
 
-The bibliography is rendered automatically from `../references.bib`. No
-content needed here — Quarto handles it.
+The bibliography is rendered automatically from `../references.bib` into the
+block below; the profile sets its heading. Leave the block as it is.
+
+::: {#refs}
+:::
 
 # Appendices {.unnumbered}
 

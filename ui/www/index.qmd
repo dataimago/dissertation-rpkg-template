@@ -1,21 +1,24 @@
 ---
-title: "{{thesis.workingTitle}}"
-author: "{{user.name}}"
+abstract: |
+  Your dissertation abstract: typically one paragraph, about 250 to 350 words
+  depending on institutional convention. Pull from your `dataimago-spec.yaml`'s
+  `vertical.dissertation.thesis.contribution` field as a starting point. The
+  PDF prints this field on the abstract page; the web book shows it on this page.
 ---
+
+::: {.content-visible when-format="html"}
 
 # About this thesis
 
 This is the landing page for {{user.name}}'s dissertation, "{{thesis.workingTitle}}",
 at {{institution.name}} ({{institution.degreeProgram}}).
 
-The thesis is rendered via Quarto + XeLaTeX to a PDF whenever you push changes
+The thesis is rendered via Quarto + LuaLaTeX to a PDF whenever you push changes
 to `ui/www/` or `R/`; a stable copy is committed to `docs/thesis.pdf` by the
 `build-thesis.yml` workflow.
 
-::: {.content-visible when-format="html"}
 **Read it:** [the thesis PDF](thesis.pdf) (latest CI build) · [the R package
 reference](r-package.qmd) (functions, rendered from the roxygen docs).
-:::
 
 ## Chapters
 
@@ -30,6 +33,7 @@ reference](r-package.qmd) (functions, rendered from the roxygen docs).
 
 ## Formatting
 
-See [`THESIS-CLS-README.md`](THESIS-CLS-README.md) for the 3-mode thesis class
-file strategy + how to iterate on your `thesis.cls` for institutional
-compliance.
+See [`THESIS-CLS-README.md`](THESIS-CLS-README.md) for how the house thesis
+class and your institution's profile format the PDF, and how to change them.
+
+:::

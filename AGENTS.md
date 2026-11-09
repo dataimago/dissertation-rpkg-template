@@ -20,25 +20,27 @@ The `ui/www/` Quarto root follows the dataimago framework's convention for R pac
 | `R/` | Your methodological R code, roxygen-documented |
 | `tests/testthat/` | Unit tests; new functions need a corresponding test |
 | `man/` | Auto-generated roxygen docs |
-| `ui/www/_quarto.yml` | Book config — chapters list, PDF format, fonts, citation style |
+| `ui/www/_quarto.yml` | Book config — chapters list, PDF format, the `thesis:` block (title-page data), citation style |
 | `ui/www/chapters/*.qmd` | Per-chapter sources |
-| `ui/www/thesis.cls` | LaTeX thesis class (see `ui/www/THESIS-CLS-README.md` for the 3-mode strategy) |
-| `ui/www/dataimago.sty` | Companion LaTeX support (typography hooks) |
+| `ui/www/thesis-class/` | The house LaTeX thesis class `dataimago-thesis`, its Quarto partials and filter. **Copied from the thesis-class registry; never hand-edit.** `registry-source.json` records the registry commit; `python3 ui/www/thesis-class/sync.py check` verifies it (see `ui/www/THESIS-CLS-README.md`) |
+| `ui/www/profiles/` | Formatting profiles: `<id>.yaml` (facts from a guide) and its compiled `<id>.cfg`. `house` ships; `thesis.profile` in `_quarto.yml` selects one |
+| `ui/www/_environment` | Puts `thesis-class/` and `profiles/` on LaTeX's search path for Quarto |
 | `ui/www/references.bib` | BibTeX bibliography |
-| `.github/workflows/build-thesis.yml` | Renders PDF on push; commits to `docs/thesis.pdf` |
+| `.github/workflows/build-thesis.yml` | Renders PDF on push (Quarto + LuaLaTeX); commits to `docs/thesis.pdf` |
 | `.github/workflows/R-CMD-check.yml` | R CMD check on push + PR |
 
 ## When the user asks for help
 
 - **"Edit chapter X"** — work in `ui/www/chapters/X.qmd`. Changes trigger `build-thesis.yml`.
 - **"Add a citation"** — append a BibTeX entry to `ui/www/references.bib`; cite in chapter via `[@bibtex-key]`.
-- **"Change thesis formatting"** — see `ui/www/THESIS-CLS-README.md`. The mode is the app repo spec's `vertical.dissertation.thesis.classFile.type`:
-  - `shipped`: the registry has a class for the author's institution, used as-is. Follow "Setting up a shipped class" in `ui/www/THESIS-CLS-README.md`: read `vertical.dissertation.institution.name` from the spec, look it up in `https://raw.githubusercontent.com/dataimago/dissertation-thesis-classes/main/registry.json`, download the entry's `path` and `companions` from the same base into `ui/www/`, set `documentclass` / `classoption` / `pdf-engine` in `ui/www/_quarto.yml` from the entry, and commit the files. The framework default `thesis.cls` is never the shipped class. If no entry matches, tell the author plainly and offer `generated`.
-  - `vendored`: the author provides their institution's own `.cls`; it replaces `ui/www/thesis.cls`.
-  - `generated`: start from the framework default `ui/www/thesis.cls` and tailor it to the institution's guidelines in the app repo's `raw/thesis-formatting/`.
+- **"Change thesis formatting"** — see `ui/www/THESIS-CLS-README.md`. One house class (`dataimago-thesis`, in `ui/www/thesis-class/`) plus a profile per institution (`ui/www/profiles/<id>.yaml`, compiled to `<id>.cfg`) does all the formatting; `thesis.profile` in `_quarto.yml` selects the profile. Change a rule by changing the profile, never the class and never Quarto keys the profile owns (`geometry`, `mainfont`, `fontsize`, `toc`, ...; the build warns). The mode is the app repo spec's `vertical.dissertation.thesis.classFile.type`:
+  - `shipped`: the registry has a profile for the author's institution, used as-is. Follow "Setting up a shipped profile" in `ui/www/THESIS-CLS-README.md`: read `vertical.dissertation.institution.name` from the spec, look it up in the `profiles` of `https://raw.githubusercontent.com/dataimago/dissertation-thesis-classes/main/registry.json` (check `schemaVersion` is 2; `mode: shipped`, `status: available`), run `python3 ui/www/thesis-class/sync.py sync --ref main --profile <id>` (it fetches the profile's class and companions and the profile's `yaml` and `cfg`, and records the registry commit), set `thesis.profile: <id>` in `_quarto.yml`, read the profile's `unstated` list, and commit the files. The `house` profile is never the shipped one. If no profile matches, tell the author plainly and offer `generated`.
+  - `vendored`: the author provides their institution's own `.cls`; the house class is then not used (see `THESIS-CLS-README.md`).
+  - `generated`: start from the `house` profile: copy `profiles/house.yaml` to `profiles/<id>.yaml`, adapt it to the institution's guidelines in the app repo's `raw/thesis-formatting/` (each value cited, what the guide leaves unstated listed), compile it with `texlua thesis-class/thesis-profile.lua profiles <id>`, and set `thesis.profile: <id>`. The app repo's `thesis-format` skill does this.
   - CI (`build-thesis.yml`) builds only from committed files. Never make it download a class from the registry.
+  - The title page reads the `thesis:` block in `_quarto.yml` (degree, department, advisors, committee, ...); the abstract is `abstract:` in `index.qmd`; acknowledgments and dedication are divs in `chapters/00-front-matter.qmd`.
 - **"Add an R function for my methodology"** — create `R/<descriptive-name>.R`, roxygen-document, run `devtools::document()` locally, add a test in `tests/testthat/test-<name>.R`.
-- **"Why does my thesis PDF look weird?"** — check the latest `build-thesis.yml` run; common issues: missing LaTeX packages (add to the `tlmgr install` line), Quarto YAML syntax errors, undefined references.
+- **"Why does my thesis PDF look weird?"** — check the latest `build-thesis.yml` run; common issues: missing LaTeX packages (add to the `tlmgr install` line), a required `thesis:` field left empty (the error names the key), a figure without `fig-alt`, Quarto YAML syntax errors, undefined references.
 
 ## The dataimago-spec.yaml is in the APP repo
 
@@ -56,6 +58,7 @@ The author's `dataimago-spec.yaml` lives in the **app repo** (the dissertation's
 - **Don't commit `_book/` or `.quarto/`** under `ui/www/` — those are build artifacts; they're in `.gitignore`.
 - **If `raw/manuscript/LOCKED.md` exists in the linked app repo, it governs.** The manuscript beside it is the author's finished dissertation, imported as authoritative v1.0. Chapter work here extends it — never regenerate, restructure, or replace it. Where that manuscript and anything in this package disagree, the manuscript wins.
 - **Don't hand-edit the web book's synced design files** (`ui/www/assets/neutral-*.scss`, `ui/www/assets/fonts/`; each text file's first line says "do not edit"). Put a site-specific rule in `ui/www/assets/site.scss`; upgrade or opt out as `README.md` ("The site's look") describes.
+- **Don't hand-edit the vendored thesis class** (`ui/www/thesis-class/*` except `sync.py` and `check-pdf-fonts.sh`, and `ui/www/profiles/house.*` plus any other shipped profile). Put an institution's rules in a profile of your own; update the copy with `sync.py`. `python3 ui/www/thesis-class/sync.py check` shows what differs from the registry.
 - **Don't commit secrets.** No API keys; no institutional credentials.
 - **Never put identifiable personal data in git** (participant data, names with addresses, IDs). Analysis data that identifies people stays out of this public-by-default repository.
 - **Public repository + unpublished work = warn first.** If this repository is public and holds unpublished chapters or results, tell the author before pushing and show them how to make it private (Settings → General → Danger Zone → Change visibility).

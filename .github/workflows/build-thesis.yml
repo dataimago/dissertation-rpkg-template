@@ -48,29 +48,57 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
 
       - uses: quarto-dev/quarto-actions/setup@v2
-      # setup-tinytex installs TinyTeX AND puts `tlmgr` on PATH. The previous
-      # `quarto install tinytex` left `tlmgr` off PATH → "tlmgr: command not
-      # found" on the first real E2E run.
-      - uses: r-lib/actions/setup-tinytex@v2
+        with:
+          version: 1.11.9 # the version the house class's own CI renders with
 
-      - name: Install fonts the thesis uses (Noto family for XeLaTeX/fontspec)
+      # The house class builds with LuaLaTeX (a tagged, accessible PDF) and its
+      # fonts, TeX Gyre, come from TeX Live. Tagging needs a current LaTeX, so
+      # install TeX Live from CTAN instead of using a distro or TinyTeX
+      # snapshot; the installed tree is cached. The package list is the one the
+      # house class's CI installs (tools/texlive-packages.txt in
+      # dataimago/dissertation-thesis-classes). Bumping the vendored class
+      # (registry-source.json changes) rebuilds the cache.
+      - name: System packages
         run: |
           sudo apt-get update
-          sudo apt-get install -y fonts-noto-core fonts-noto-extra fonts-noto-cjk poppler-utils
-          # Ubuntu's Noto Sans Math (fonts-noto-core) is version 2.001, which has
-          # no OpenType MATH table, so unicode-math silently sets every equation
-          # in Latin Modern Math instead. Replace it with 3.000 (which has the
-          # table) from google/fonts, pinned by commit and checksum.
-          curl -fsSL -o /tmp/NotoSansMath-Regular.ttf \
-            https://raw.githubusercontent.com/google/fonts/dbd1ab6e65dc59bcda3ca8de9fd372f58f98e0af/ofl/notosansmath/NotoSansMath-Regular.ttf
-          echo "3f495fe933c06786e4d5f6d86b8ee70b6753a68ee3b9d87528726de0f6e2c47d  /tmp/NotoSansMath-Regular.ttf" | sha256sum -c -
-          sudo install -m 644 /tmp/NotoSansMath-Regular.ttf /usr/share/fonts/truetype/noto/NotoSansMath-Regular.ttf
-          fc-cache -f
-
-      - name: Install thesis-class LaTeX packages
+          sudo apt-get install -y --no-install-recommends perl fontconfig poppler-utils
+      - name: Cache TeX Live
+        id: tl-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/texlive
+          key: texlive-2026-${{ runner.os }}-${{ hashFiles('ui/www/thesis-class/registry-source.json') }}
+      - name: Install TeX Live
+        if: steps.tl-cache.outputs.cache-hit != 'true'
         run: |
-          tlmgr install xetex fontspec unicode-math
-          tlmgr install enumitem etoolbox geometry hyperref tocbibind setspace xstring
+          TL="$HOME/texlive"
+          mkdir -p /tmp/tlinst && cd /tmp/tlinst
+          curl -fsSL https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar xz --strip-components=1
+          cat > profile.txt <<EOP
+          selected_scheme scheme-medium
+          TEXDIR $TL
+          TEXMFLOCAL $TL/texmf-local
+          TEXMFSYSCONFIG $TL/texmf-config
+          TEXMFSYSVAR $TL/texmf-var
+          TEXMFHOME $TL/texmf-home
+          instopt_adjustpath 0
+          instopt_adjustrepo 1
+          tlpdbopt_autobackup 0
+          tlpdbopt_install_docfiles 0
+          tlpdbopt_install_srcfiles 0
+          EOP
+          perl ./install-tl --profile profile.txt --no-interaction
+          BIN=$(ls -d "$TL"/bin/*)
+          "$BIN/tlmgr" install tex-gyre tex-gyre-math luamml tagpdf latex-lab latexmk selnolig xurl bookmark pdflscape caption unicode-math fontspec setspace
+          "$BIN/tlmgr" --version
+      - name: Put TeX Live on PATH and register its fonts with fontconfig
+        run: |
+          BIN=$(ls -d "$HOME"/texlive/bin/*)
+          echo "$BIN" >> "$GITHUB_PATH"
+          mkdir -p "$HOME/.config/fontconfig/conf.d"
+          cp "$HOME/texlive/texmf-var/fonts/conf/texlive-fontconfig.conf" "$HOME/.config/fontconfig/conf.d/09-texlive.conf"
+          fc-cache -f
+          fc-list | grep -m3 -i "TeX Gyre Termes"
 
       - name: Render thesis PDF
         working-directory: ui/www
@@ -110,13 +138,8 @@ jobs:
             fi
           fi
 
-      # Last, so the author still gets the PDF: the math-font fallback is
-      # silent, so check the result. A thesis whose math font is Noto Sans Math
-      # must not embed Latin Modern Math.
-      - name: Check the PDF's math font
-        run: |
-          if grep -q '^ *mathfont: *"\?Noto Sans Math' ui/www/_quarto.yml \
-             && pdffonts docs/thesis.pdf | grep -q LatinModernMath; then
-            echo "::error::docs/thesis.pdf sets its equations in Latin Modern Math, not Noto Sans Math. The runner's Noto Sans Math has no MATH table; see the font step above."
-            exit 1
-          fi
+      # Last, so the author still gets the PDF: LaTeX falls back to another
+      # font without an error, so check the fonts the PDF embeds (the profile's
+      # main and math fonts, all embedded, no Latin Modern Math fallback).
+      - name: Check the PDF's fonts
+        run: sh ui/www/thesis-class/check-pdf-fonts.sh ui/www docs/thesis.pdf

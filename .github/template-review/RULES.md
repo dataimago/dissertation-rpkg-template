@@ -29,32 +29,44 @@ Severity: P1 blocks the PR; P2 should be fixed; P3 is optional.
 ## P1 - the thesis build
 
 - `build-thesis.yml` builds from committed files and never fetches the registry
-  or any class at build time. Flag any download of a `.cls` in CI.
-- Quarto and the LaTeX engine agree: `documentclass`, `classoption` and
-  `pdf-engine` in `_quarto.yml` match the class in `ui/www/`; XeLaTeX-only
-  packages (`fontspec`, `unicode-math`) are installed in the workflow's
-  `tlmgr` lines; the `output-file: thesis` name matches `docs/thesis.pdf`.
-- The math font has an OpenType MATH table. apt's Noto Sans Math 2.001 has none,
-  so `unicode-math` silently falls back to Latin Modern Math. Keep the pinned
-  3.000 download (commit and sha256) and the final `pdffonts` check.
-- `\usepackage{dataimago}` stays a package load, never header-file injection
-  (the `.sty`'s `\endinput` truncates the document).
+  or any class at build time. Flag any download of a `.cls`, a profile or a
+  partial in CI. (Installing TeX Live from CTAN is not a class download.)
+- Quarto and the LaTeX engine agree: `documentclass: dataimago-thesis`,
+  `pdf-engine: lualatex`, the six `template-partials` and the `thesis-divs.lua`
+  filter in `_quarto.yml` match the files in `ui/www/thesis-class/`;
+  `ui/www/_environment` puts `thesis-class/` and `profiles/` on `TEXINPUTS`;
+  `thesis.profile` names a profile that has both `.yaml` and compiled `.cfg` in
+  `ui/www/profiles/`; the `output-file: thesis` name matches `docs/thesis.pdf`.
+  The workflow installs a current TeX Live with the TeX Gyre fonts (the package
+  list of the registry's `tools/texlive-packages.txt`) and checks the fonts the
+  PDF embeds (`check-pdf-fonts.sh`): a silent math-font fallback to Latin
+  Modern Math must fail the run.
+- `.gitignore` ignores `*.tex`; the vendored partials (`thesis-class/*.tex`)
+  must stay un-ignored.
+- The vendored class is byte-identical to the registry at the commit in
+  `ui/www/thesis-class/registry-source.json` (`sync.py check`, run by
+  `template-thesis-check.yml`). Flag a hand edit of a vendored file, and a change
+  to `registry-source.json` that is not the output of `sync.py sync`.
+- `template-thesis-check.yml` is template-only: every job keeps the
+  `github.repository == 'dataimago/dissertation-rpkg-template'` guard. The sample
+  thesis must render to a tagged PDF with the profile's fonts.
 - The `{{` guard in `build-thesis.yml` and the `!=` template guards on the
   other workflows stay, so a raw template copy does not fail CI.
 
 ## P1 - the registry contract
 
 - Docs and agent guidance about the three `classFile` modes (`shipped`,
-  `vendored`, `generated`) must match `dataimago/dissertation-thesis-classes`:
-  its `registry.json` fields (`path`, `companions`, `documentclass`,
-  `classOptions`, `engine`, `status`, `mode`) and `docs/discovery-contract.md`.
-  `shipped` always names a registry class matched to the institution, never the
-  framework default `thesis.cls`.
-- A house class (`dataimago-thesis.cls`, with institution profiles) is planned:
-  see that repo's PR #3 and `docs/house-class-spec.md`. Do not flag its absence;
-  flag text that contradicts the spec once it merges.
+  `vendored`, `generated`) must match `dataimago/dissertation-thesis-classes`
+  (`registry.json` at `schemaVersion` 2, `docs/discovery-contract.md`,
+  `docs/house-class-spec.md`): an institution is found in `profiles`
+  (`mode: shipped`, `status: available`), the profile's `class` is resolved in
+  `classes`, and the class `path` + `companions` (under `classes/<class>/`) and
+  the profile's `cfg` + `yaml` (under `profiles/`) are fetched. `shipped` always
+  names an institution's profile, never the `house` profile; `generated` starts
+  from the `house` profile; `vendored` is the author's own class.
 - `AGENTS.md`, `THESIS-CLS-README.md` and `_quarto.yml` comments must tell the
-  same story about which mode does what.
+  same story about which mode does what, and about where a profile lives
+  (`ui/www/profiles/<id>.yaml` + `.cfg`).
 
 ## P2 - R package hygiene
 
