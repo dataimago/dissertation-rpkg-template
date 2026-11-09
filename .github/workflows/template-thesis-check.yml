@@ -21,11 +21,13 @@ on:
     paths:
       - 'ui/www/**'
       - '.github/workflows/template-thesis-check.yml'
+      - '.github/workflows/build-thesis.yml'
   push:
     branches: [main]
     paths:
       - 'ui/www/**'
       - '.github/workflows/template-thesis-check.yml'
+      - '.github/workflows/build-thesis.yml'
   workflow_dispatch: {}
 
 permissions:
@@ -47,6 +49,14 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
+
+      # The TeX Live install is copied into build-thesis.yml (the authors' build, which
+      # cannot run in this repo). Fail if the tlmgr package lists diverge.
+      - name: The package lists match build-thesis.yml
+        run: |
+          grep '^ *"[$]BIN/tlmgr" install' .github/workflows/build-thesis.yml > /tmp/a.txt
+          grep '^ *"[$]BIN/tlmgr" install' .github/workflows/template-thesis-check.yml > /tmp/b.txt
+          test -s /tmp/a.txt && diff /tmp/a.txt /tmp/b.txt
 
       - name: Fill the placeholders with sample values
         run: |

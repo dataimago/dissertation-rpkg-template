@@ -32,8 +32,11 @@ cd {{rPackage.name}}
 # Edit chapter content in ui/www/chapters/*.qmd
 # (or open this repo in your AI-enabled editor)
 
-# Local thesis PDF preview
+# Local preview of the web book (HTML)
 cd ui/www && quarto preview
+
+# Local thesis PDF: needs a current TeX Live (see ui/www/THESIS-CLS-README.md, "The build")
+cd ui/www && quarto render --to pdf
 
 # Or push to main + check the CI-built PDF in docs/thesis.pdf
 ```
