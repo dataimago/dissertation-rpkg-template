@@ -57,7 +57,7 @@ jobs:
       # snapshot; the installed tree is cached. The package list is the one the
       # house class's CI installs (tools/texlive-packages.txt in
       # dataimago/dissertation-thesis-classes), plus what Pandoc's template needs. Bumping the vendored class
-      # (registry-source.json changes) rebuilds the cache.
+      # (registry-source.json changes) or this list changes rebuilds the cache.
       - name: System packages
         run: |
           sudo apt-get update
@@ -67,7 +67,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/texlive
-          key: texlive-2026-${{ runner.os }}-${{ hashFiles('ui/www/thesis-class/registry-source.json') }}
+          key: texlive-2026-${{ runner.os }}-${{ hashFiles('ui/www/thesis-class/registry-source.json', '.github/workflows/build-thesis.yml') }}
       - name: Install TeX Live
         if: steps.tl-cache.outputs.cache-hit != 'true'
         run: |
