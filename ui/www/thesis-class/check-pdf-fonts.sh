@@ -28,9 +28,17 @@ echo "$FONTS" | grep -q "Type 3" && fail "$PDF has a Type 3 font (see pdffonts)"
 if [ "$MATH" != latex-default ] && echo "$FONTS" | grep -q LatinModernMath; then
   fail "$PDF sets equations in Latin Modern Math, not $MATH. LaTeX fell back silently; check that the math font is installed with an OpenType MATH table."
 fi
-SQUEEZED_MAIN=$(printf '%s' "$MAIN" | tr -d ' ' | tr 'A-Z' 'a-z')
-if [ "$MAIN" != latex-default ] && ! printf '%s' "$FONTS" | tr -d ' ' | tr 'A-Z' 'a-z' | grep -q "$SQUEEZED_MAIN"; then
-  fail "$PDF does not use the profile's main font, $MAIN"
+# Font names, lower case without spaces. The main font's name can be a prefix of the
+# math font's (TeX Gyre Termes, TeX Gyre Termes Math), so look for each on its own.
+squeeze() { printf '%s' "$1" | tr -d ' ' | tr 'A-Z' 'a-z'; }
+NAMES=$(echo "$FONTS" | awk '{print $1}' | tr 'A-Z' 'a-z')
+SQ_MAIN=$(squeeze "$MAIN"); SQ_MATH=$(squeeze "$MATH")
+if [ "$MAIN" != latex-default ]; then
+  if [ "$MATH" != latex-default ] && [ "$SQ_MATH" != "$SQ_MAIN" ]; then
+    echo "$NAMES" | grep "$SQ_MAIN" | grep -qv "$SQ_MATH" || fail "$PDF does not use the profile's main font, $MAIN"
+  else
+    echo "$NAMES" | grep -q "$SQ_MAIN" || fail "$PDF does not use the profile's main font, $MAIN"
+  fi
 fi
 [ "$STATUS" = 0 ] && echo "fonts ok for profile $PROFILE (main $MAIN, math $MATH)"
 exit $STATUS
