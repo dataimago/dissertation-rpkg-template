@@ -1,20 +1,21 @@
----
-title: "Front matter"
----
+# Front matter {.unnumbered}
 
-# Abstract {.unnumbered}
+<!-- The PDF lifts the blocks below into the front pages the profile orders
+     (abstract, acknowledgments, dedication, ...) and drops this chapter; the
+     web book shows this page as written. The abstract itself is the
+     `abstract:` field in index.qmd. A page you do not write is left out of
+     the PDF. The same blocks take the class names `.dedication`, `.preface`,
+     `.abbreviations` and `.symbols`; the profile decides which pages exist
+     and in what order. For example, a dedication:
 
-Your dissertation abstract — typically one paragraph, ~250–350 words depending
-on institutional convention. Pull from your `dataimago-spec.yaml`'s
-`vertical.dissertation.thesis.contribution` field as a starting point.
+     ::: {.dedication}
+     For ...
+     :::
+-->
 
-# Acknowledgments {.unnumbered}
-
+::: {.acknowledgments}
 Acknowledgments for your advisor, committee, family, funders. If you have
 funding to acknowledge, also fill in your `dataimago-spec.yaml`'s `funding`
-section — that field can be used to auto-render this section in a future
+section; that field can be used to auto-render this section in a future
 iteration.
-
-# Dedication {.unnumbered}
-
-Optional. Remove this section if not used.
+:::

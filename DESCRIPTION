@@ -2,7 +2,7 @@ Package: {{rPackage.rName}}
 Version: 0.0.0.9000
 Title: Dissertation R Package and Thesis Build
 Description: R package supporting a dissertation provisioned via dissertation.ai.
-    Hosts the dissertation's methodological R code and the Quarto plus XeLaTeX
+    Hosts the dissertation's methodological R code and the Quarto plus LuaLaTeX
     thesis-PDF build chain at ui/www/.
 Authors@R:
     person("{{user.name}}", email = "{{user.email}}", role = c("aut", "cre"))

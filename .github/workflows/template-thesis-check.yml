@@ -1,0 +1,155 @@
+name: Template thesis check
+
+# TEMPLATE-ONLY. The dissertation-ai hub copies every file of this repo into an
+# author's repository, so every job here is guarded with
+# `github.repository == 'dataimago/dissertation-rpkg-template'` and never runs
+# in an author's repo (the reverse of the `!=` guard that build-thesis.yml uses
+# to skip the template, whose ui/www still holds {{placeholders}}).
+#
+# Two checks that build-thesis.yml cannot make here:
+#   vendored  the house class files in ui/www/thesis-class/ and the profiles in
+#             ui/www/profiles/ are byte-identical to the registry
+#             (dataimago/dissertation-thesis-classes) at the commit recorded in
+#             ui/www/thesis-class/registry-source.json, so nobody hand-edits them.
+#   sample    the template's sample thesis, with sample values in place of the
+#             {{placeholders}}, renders to a tagged PDF with the fonts the
+#             profile names. The hub fills the real values in; this proves the
+#             starting point builds.
+
+on:
+  pull_request:
+    paths:
+      - 'ui/www/**'
+      - '.github/workflows/template-thesis-check.yml'
+      - '.github/workflows/build-thesis.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ui/www/**'
+      - '.github/workflows/template-thesis-check.yml'
+      - '.github/workflows/build-thesis.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  vendored:
+    name: Vendored class matches the registry
+    if: github.repository == 'dataimago/dissertation-rpkg-template'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: python3 ui/www/thesis-class/sync.py check
+
+  sample:
+    name: Sample thesis builds
+    if: github.repository == 'dataimago/dissertation-rpkg-template'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+
+      # The TeX Live install is copied into build-thesis.yml (the authors' build, which
+      # cannot run in this repo). Fail if the tlmgr package lists diverge.
+      - name: The package lists match build-thesis.yml
+        run: |
+          grep '^ *"[$]BIN/tlmgr" install' .github/workflows/build-thesis.yml > /tmp/a.txt
+          grep '^ *"[$]BIN/tlmgr" install' .github/workflows/template-thesis-check.yml > /tmp/b.txt
+          test -s /tmp/a.txt && diff /tmp/a.txt /tmp/b.txt
+
+      - name: Fill the placeholders with sample values
+        run: |
+          set -eu
+          rm -rf "$RUNNER_TEMP/sample" && mkdir -p "$RUNNER_TEMP/sample/ui"
+          cp -R ui/www "$RUNNER_TEMP/sample/ui/www"
+          cd "$RUNNER_TEMP/sample/ui/www"
+          grep -rlF '{{' --include='*.qmd' --include='*.yml' --include='*.bib' --exclude-dir=assets . | while read -r f; do
+            sed -i \
+              -e 's/{{thesis\.workingTitle}}/A Synthetic Study of Imaginary Systems/g' \
+              -e 's/{{thesis\.workingSubtitle}}/A Template Build/g' \
+              -e 's/{{user\.name}}/Ada Q. Example/g' \
+              -e 's/{{institution\.name}}/Example University/g' \
+              -e 's/{{institution\.degreeProgram}}/Ph.D. in Applied Studies/g' "$f"
+          done
+          if grep -rnF '{{' --include='*.qmd' --include='*.yml' --include='*.bib' --exclude-dir=assets .; then
+            echo "::error::a {{placeholder}} the hub knows about is missing from the sample values above"; exit 1
+          fi
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      # The chapters carry an executable R chunk, so Quarto runs knitr.
+      - run: Rscript -e 'install.packages(c("knitr", "rmarkdown"))'
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.11.9 # keep equal to build-thesis.yml
+
+      # Same TeX Live as build-thesis.yml (see the comments there).
+      - name: System packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends perl fontconfig poppler-utils
+      - name: Cache TeX Live
+        id: tl-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/texlive
+          key: texlive-2026-${{ runner.os }}-${{ hashFiles('ui/www/thesis-class/registry-source.json', '.github/workflows/build-thesis.yml', '.github/workflows/template-thesis-check.yml') }}
+      - name: Install TeX Live
+        if: steps.tl-cache.outputs.cache-hit != 'true'
+        run: |
+          TL="$HOME/texlive"
+          mkdir -p /tmp/tlinst && cd /tmp/tlinst
+          curl -fsSL https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar xz --strip-components=1
+          cat > profile.txt <<EOP
+          selected_scheme scheme-medium
+          TEXDIR $TL
+          TEXMFLOCAL $TL/texmf-local
+          TEXMFSYSCONFIG $TL/texmf-config
+          TEXMFSYSVAR $TL/texmf-var
+          TEXMFHOME $TL/texmf-home
+          instopt_adjustpath 0
+          instopt_adjustrepo 1
+          tlpdbopt_autobackup 0
+          tlpdbopt_install_docfiles 0
+          tlpdbopt_install_srcfiles 0
+          EOP
+          perl ./install-tl --profile profile.txt --no-interaction
+          BIN=$(ls -d "$TL"/bin/*)
+          "$BIN/tlmgr" install tex-gyre tex-gyre-math luamml tagpdf latex-lab latexmk selnolig xurl bookmark pdflscape caption unicode-math fontspec setspace
+          # What Pandoc's LaTeX template needs beyond scheme-medium (code blocks, tables,
+          # callouts), found by rendering the starter book. A package your own content
+          # needs is added to this line.
+          "$BIN/tlmgr" install framed footnotehyper booktabs fancyvrb float xcolor colorprofiles tcolorbox fontawesome5 pgf
+          "$BIN/tlmgr" --version
+      - name: Put TeX Live on PATH and register its fonts with fontconfig
+        run: |
+          BIN=$(ls -d "$HOME"/texlive/bin/*)
+          echo "$BIN" >> "$GITHUB_PATH"
+          mkdir -p "$HOME/.config/fontconfig/conf.d"
+          cp "$HOME/texlive/texmf-var/fonts/conf/texlive-fontconfig.conf" "$HOME/.config/fontconfig/conf.d/09-texlive.conf"
+          fc-cache -f
+          fc-list | grep -m3 -i "TeX Gyre Termes"
+
+      - name: Render the sample thesis
+        working-directory: ${{ runner.temp }}/sample/ui/www
+        run: quarto render --to pdf
+
+      - name: Check the PDF
+        run: |
+          PDF="$RUNNER_TEMP/sample/docs/thesis.pdf"
+          test -s "$PDF"
+          pdfinfo "$PDF" | tee /tmp/pdfinfo.txt
+          grep -q '^Tagged: *yes' /tmp/pdfinfo.txt || { echo "::error::the sample PDF is not tagged"; exit 1; }
+          pdffonts "$PDF"
+          sh ui/www/thesis-class/check-pdf-fonts.sh "$RUNNER_TEMP/sample/ui/www" "$PDF"
+
+      - name: Keep the PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sample-thesis-pdf
+          path: ${{ runner.temp }}/sample/docs/thesis.pdf
+          if-no-files-found: ignore
+          retention-days: 7

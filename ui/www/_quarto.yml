@@ -24,6 +24,28 @@ book:
     - ai-contribution-statement.qmd
 
 bibliography: references.bib
+lang: en-US
+
+# The title page and front matter come from the house class (thesis-class/)
+# and the profile named here (profiles/<id>.yaml). Everything the class needs
+# to know about you is below; formatting rules (margins, fonts, spacing, page
+# numbers) live in the profile, not in this file. See THESIS-CLS-README.md.
+# Replace each "Your ..." stand-in; the class stops the build if one is empty.
+thesis:
+  profile: house # the formatting profile in profiles/; see THESIS-CLS-README.md
+  institution: "{{institution.name}}"
+  # Your spec records the program as "{{institution.degreeProgram}}"; write the
+  # degree the way the title page should read it.
+  degree:
+    name: Doctor of Philosophy
+    field: Your Field
+  department: "Your Department"
+  advisors:
+    - { name: "Your Advisor", title: Professor, role: chair }
+  committee:
+    - { name: "Committee Member One", title: Professor }
+    - { name: "Committee Member Two", title: Professor }
+  # keywords: [first keyword, second keyword]
 
 format:
   html:
@@ -31,20 +53,24 @@ format:
     toc: true
     code-fold: true
   pdf:
-    # The framework default class (ui/www/thesis.cls). For a "shipped" class,
-    # set documentclass, classoption and pdf-engine from its registry entry;
-    # see THESIS-CLS-README.md ("Setting up a shipped class").
-    documentclass: thesis
-    classoption: [oneside, 12pt]
-    pdf-engine: xelatex
+    # The house class (thesis-class/), built with LuaLaTeX (tagged, accessible
+    # PDF). XeLaTeX also works but yields an untagged PDF: change pdf-engine
+    # only if you must. The class and the profile own page geometry, fonts,
+    # spacing, headings and the front matter, so do not set geometry, mainfont,
+    # fontsize, toc or colorlinks here: the build warns and ignores them.
+    documentclass: dataimago-thesis
+    pdf-engine: lualatex
+    template-partials:
+      - thesis-class/doc-class.tex
+      - thesis-class/title.tex
+      - thesis-class/before-body.tex
+      - thesis-class/toc.tex
+      - thesis-class/fonts.latex
+      - thesis-class/font-settings.latex
+    filters:
+      - thesis-class/thesis-divs.lua
     keep-tex: true
-    include-in-header:
-      text: |
-        % Load dataimago.sty as a package. Do NOT use include-in-header file
-        % injection here — that inlines the .sty's \endinput into index.tex and
-        % truncates the document ("no legal \end found" / Emergency stop).
-        \usepackage{dataimago}
-    mainfont: "Noto Sans"
-    sansfont: "Noto Sans"
-    mathfont: "Noto Sans Math"
+    latex-auto-install: false
+    latex-clean: false
+    latex-max-runs: 6
     fig-pos: H

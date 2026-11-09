@@ -14,9 +14,10 @@ This package is the **R-package half** of a two-repo dissertation environment. T
 | `tests/testthat/` | Unit tests |
 | `ui/www/` | The Quarto book that becomes your thesis PDF |
 | `ui/www/chapters/` | Per-chapter `.qmd` sources |
-| `ui/www/thesis.cls` | LaTeX thesis class (see `ui/www/THESIS-CLS-README.md` for the 3-mode strategy) |
+| `ui/www/thesis-class/` | The house LaTeX thesis class, copied from the thesis-class registry (see `ui/www/THESIS-CLS-README.md`) |
+| `ui/www/profiles/` | Your institution's formatting rules as a profile (`house` to start) |
 | `ui/www/references.bib` | BibTeX bibliography |
-| `.github/workflows/build-thesis.yml` | Renders thesis PDF on every push that touches `ui/www/` or `R/` |
+| `.github/workflows/build-thesis.yml` | Renders thesis PDF (Quarto + LuaLaTeX) on every push that touches `ui/www/` or `R/` |
 | `.github/workflows/quarto-publish.yml` | Publishes the HTML book + PDF + package reference to GitHub Pages |
 | `.github/workflows/R-CMD-check.yml` | R package CI |
 | `.github/workflows/design-sync-check.yml` | Fails if the web book's synced theme or fonts were edited by hand (see "The site's look") |
@@ -31,8 +32,11 @@ cd {{rPackage.name}}
 # Edit chapter content in ui/www/chapters/*.qmd
 # (or open this repo in your AI-enabled editor)
 
-# Local thesis PDF preview
+# Local preview of the web book (HTML)
 cd ui/www && quarto preview
+
+# Local thesis PDF: needs a current TeX Live (see ui/www/THESIS-CLS-README.md, "The build")
+cd ui/www && quarto render --to pdf
 
 # Or push to main + check the CI-built PDF in docs/thesis.pdf
 ```
@@ -43,8 +47,9 @@ cd ui/www && quarto preview
 |---|---|
 | Thesis chapter content | `ui/www/chapters/*.qmd` |
 | Bibliography | `ui/www/references.bib` |
-| Thesis formatting (margins, title page, etc.) | `ui/www/thesis.cls` (see `ui/www/THESIS-CLS-README.md`) |
-| Quarto book config (chapters list, PDF format, fonts) | `ui/www/_quarto.yml` |
+| Thesis formatting (margins, fonts, spacing, front pages) | a profile in `ui/www/profiles/` (see `ui/www/THESIS-CLS-README.md`) |
+| Title page details (degree, department, committee) | the `thesis:` block in `ui/www/_quarto.yml` |
+| Quarto book config (chapters list, PDF format) | `ui/www/_quarto.yml` |
 | Methodology R code | `R/*.R` |
 
 ## The site's look

@@ -61,3 +61,5 @@ docs/
 *.lot
 *.out
 *.synctex.gz
+# ...but the vendored house-class partials are source, not build output.
+!ui/www/thesis-class/*.tex
