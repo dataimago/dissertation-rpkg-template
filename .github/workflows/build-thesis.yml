@@ -56,7 +56,7 @@ jobs:
       # install TeX Live from CTAN instead of using a distro or TinyTeX
       # snapshot; the installed tree is cached. The package list is the one the
       # house class's CI installs (tools/texlive-packages.txt in
-      # dataimago/dissertation-thesis-classes). Bumping the vendored class
+      # dataimago/dissertation-thesis-classes), plus what Pandoc's template needs. Bumping the vendored class
       # (registry-source.json changes) rebuilds the cache.
       - name: System packages
         run: |
@@ -90,6 +90,10 @@ jobs:
           perl ./install-tl --profile profile.txt --no-interaction
           BIN=$(ls -d "$TL"/bin/*)
           "$BIN/tlmgr" install tex-gyre tex-gyre-math luamml tagpdf latex-lab latexmk selnolig xurl bookmark pdflscape caption unicode-math fontspec setspace
+          # What Pandoc's LaTeX template needs beyond scheme-medium (code blocks, tables,
+          # callouts), found by rendering the starter book. A package your own content
+          # needs is added to this line.
+          "$BIN/tlmgr" install framed footnotehyper booktabs fancyvrb float xcolor colorprofiles tcolorbox fontawesome5 pgf
           "$BIN/tlmgr" --version
       - name: Put TeX Live on PATH and register its fonts with fontconfig
         run: |

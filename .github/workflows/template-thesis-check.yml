@@ -108,6 +108,10 @@ jobs:
           perl ./install-tl --profile profile.txt --no-interaction
           BIN=$(ls -d "$TL"/bin/*)
           "$BIN/tlmgr" install tex-gyre tex-gyre-math luamml tagpdf latex-lab latexmk selnolig xurl bookmark pdflscape caption unicode-math fontspec setspace
+          # What Pandoc's LaTeX template needs beyond scheme-medium (code blocks, tables,
+          # callouts), found by rendering the starter book. A package your own content
+          # needs is added to this line.
+          "$BIN/tlmgr" install framed footnotehyper booktabs fancyvrb float xcolor colorprofiles tcolorbox fontawesome5 pgf
           "$BIN/tlmgr" --version
       - name: Put TeX Live on PATH and register its fonts with fontconfig
         run: |
