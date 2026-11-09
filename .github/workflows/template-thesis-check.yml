@@ -85,7 +85,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/texlive
-          key: texlive-2026-${{ runner.os }}-${{ hashFiles('ui/www/thesis-class/registry-source.json', '.github/workflows/build-thesis.yml') }}
+          key: texlive-2026-${{ runner.os }}-${{ hashFiles('ui/www/thesis-class/registry-source.json', '.github/workflows/build-thesis.yml', '.github/workflows/template-thesis-check.yml') }}
       - name: Install TeX Live
         if: steps.tl-cache.outputs.cache-hit != 'true'
         run: |
