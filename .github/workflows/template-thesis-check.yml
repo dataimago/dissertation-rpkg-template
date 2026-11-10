@@ -41,6 +41,18 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - run: python3 ui/www/thesis-class/sync.py check
+      # The TeX Live pin in both workflows equals tools/texlive-pin.txt in the registry at the
+      # commit the vendored class came from: the registry's CI built that class on that snapshot.
+      - name: The TeX Live pin matches the registry
+        run: |
+          set -eu
+          C=$(python3 -c 'import json; print(json.load(open("ui/www/thesis-class/registry-source.json"))["commit"])')
+          curl -fsSL --retry 3 "https://raw.githubusercontent.com/dataimago/dissertation-thesis-classes/$C/tools/texlive-pin.txt" | grep '^TL_' | sort > "$RUNNER_TEMP/registry-pin.txt"
+          test -s "$RUNNER_TEMP/registry-pin.txt"
+          for f in build-thesis.yml template-thesis-check.yml; do
+            sed -nE 's/^ *(TL_SNAPSHOT|TL_INSTALLER_SHA512|TL_TLPDB_SHA512): *([^ ]+) *$/\1=\2/p' ".github/workflows/$f" | sort > "$RUNNER_TEMP/pin-$f.txt"
+            diff "$RUNNER_TEMP/registry-pin.txt" "$RUNNER_TEMP/pin-$f.txt" || { echo "::error::the TeX Live pin in $f differs from tools/texlive-pin.txt at registry commit $C (< registry, > workflow)"; exit 1; }
+          done
 
   sample:
     name: Sample thesis builds
@@ -98,10 +110,26 @@ jobs:
           key: texlive-2026-${{ runner.os }}-${{ hashFiles('ui/www/thesis-class/registry-source.json', '.github/workflows/build-thesis.yml', '.github/workflows/template-thesis-check.yml') }}
       - name: Install TeX Live
         if: steps.tl-cache.outputs.cache-hit != 'true'
+        env:
+          # The pinned TeX Live: the same three values as tools/texlive-pin.txt in
+          # dataimago/dissertation-thesis-classes, whose CI builds the house class on this
+          # snapshot. A bump changes all three there first (its CONTRIBUTING.md, "Maintainers:
+          # bumping TeX Live") and then here; it changes this file, so the cache rebuilds.
+          TL_SNAPSHOT: 2026/11/09
+          TL_INSTALLER_SHA512: 9bf5cc108530b16f8bb3af646b429f2ace8ad640326fc4b5d95e9e056126427a52e90ad923316f7f9e7b5e232eb1fd0af0c79e6f4c00a9f2437c4a22ecd6b06f
+          TL_TLPDB_SHA512: f7c90c78376245b0bed91ff10a6d19d7e3c48099f61349e2419d492b0ce8357519734a38d5a27d1af937a3c6c6fe8f751ae5c5a2463b66cf60f57d14e5a981d4
         run: |
           TL="$HOME/texlive"
           mkdir -p /tmp/tlinst && cd /tmp/tlinst
-          curl -fsSL --retry 4 --retry-delay 5 --retry-all-errors https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar xz --strip-components=1
+          REPO="https://texlive.info/tlnet-archive/$TL_SNAPSHOT/tlnet"
+          # Download to a file and check it (a retried download piped into tar could leave tar a
+          # truncated stream), then check that the snapshot's package database is the pinned one;
+          # install-tl and tlmgr check every package against that database.
+          curl -fsSL --retry 4 --retry-delay 5 --retry-all-errors -o install-tl-unx.tar.gz "$REPO/install-tl-unx.tar.gz"
+          echo "$TL_INSTALLER_SHA512  install-tl-unx.tar.gz" | sha512sum -c --quiet -
+          curl -fsSL --retry 4 --retry-delay 5 --retry-all-errors -o texlive.tlpdb.sha512 "$REPO/tlpkg/texlive.tlpdb.sha512"
+          [ "$(cut -d' ' -f1 texlive.tlpdb.sha512)" = "$TL_TLPDB_SHA512" ] || { echo "::error::the package database at $REPO is not the pinned one (TL_TLPDB_SHA512)" >&2; exit 1; }
+          tar xzf install-tl-unx.tar.gz --strip-components=1
           cat > profile.txt <<EOP
           selected_scheme scheme-medium
           TEXDIR $TL
@@ -110,13 +138,15 @@ jobs:
           TEXMFSYSVAR $TL/texmf-var
           TEXMFHOME $TL/texmf-home
           instopt_adjustpath 0
-          instopt_adjustrepo 1
+          instopt_adjustrepo 0
           tlpdbopt_autobackup 0
           tlpdbopt_install_docfiles 0
           tlpdbopt_install_srcfiles 0
           EOP
-          perl ./install-tl --profile profile.txt --no-interaction
+          perl ./install-tl --profile profile.txt --no-interaction --repository "$REPO"
           BIN=$(ls -d "$TL"/bin/*)
+          # tlmgr installs from the same snapshot, never from the current CTAN mirror
+          "$BIN/tlmgr" option repository "$REPO"
           "$BIN/tlmgr" install tex-gyre tex-gyre-math luamml tagpdf latex-lab latexmk selnolig xurl bookmark pdflscape caption unicode-math fontspec setspace
           # What Pandoc's LaTeX template needs beyond scheme-medium (code blocks, tables,
           # callouts), found by rendering the starter book. A package your own content
