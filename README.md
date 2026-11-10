@@ -41,6 +41,15 @@ cd ui/www && quarto render --to pdf
 # Or push to main + check the CI-built PDF in docs/thesis.pdf
 ```
 
+### Building the PDF locally
+
+You only need this to build the thesis on your own machine; pushing to `main` builds it on GitHub.
+
+- [Quarto](https://quarto.org/docs/get-started/) at the version the build pins (`version:` in `.github/workflows/build-thesis.yml`, 1.11.9 at the time of writing; older releases are on [Quarto's download page](https://quarto.org/docs/download/prerelease.html) and its GitHub releases), so your local PDF matches the one GitHub builds.
+- A current **TeX Live** (2026 or newer), for example [MacTeX](https://tug.org/mactex/) or Homebrew's `texlive` on a Mac, or TeX Live from [tug.org](https://tug.org/texlive/). TinyTeX (`quarto install tinytex`) is not enough for the house class. After installing it, run `tlmgr install tex-gyre tex-gyre-math luamml tagpdf latex-lab latexmk selnolig xurl bookmark pdflscape caption unicode-math fontspec setspace framed footnotehyper booktabs fancyvrb float xcolor colorprofiles tcolorbox fontawesome5 pgf` (from a terminal; on a system install it needs `sudo`). This is the build's own list, and a full MacTeX already has most of it.
+- The fonts are TeX Gyre, which come with TeX Live. If a build complains that a font is missing, your TeX Live lacks `tex-gyre` and `tex-gyre-math`.
+- R, with the packages in `DESCRIPTION`, because the chapters can run R chunks.
+
 ## Editing your dissertation
 
 | What you want to change | Where |
