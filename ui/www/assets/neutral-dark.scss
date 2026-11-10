@@ -1,4 +1,4 @@
-// @dataimago/css-neutral@0.1.0-alpha.20 dist/quarto/neutral-dark.scss · sha256:09d6b80fcaebb194c8ec77186bc7c7ce9a415c8fb535f9a75e35d7ed09d43e59 · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.20 dataimago-sync
+// @dataimago/css-neutral@0.1.0-alpha.22 dist/quarto/neutral-dark.scss · sha256:3776bd4c43aa2aaf3021603657a9ad1e73c6fd8a35e665daf1ee7ff9c78cdf9e · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.22 dataimago-sync
 // neutral dark theme for Quarto 1.11 — generated from the design tokens (tools/formats/quarto.mjs).
 // Bootstrap Sass variables are compile-time sRGB; runtime colours come from the custom properties below.
 
@@ -150,6 +150,9 @@ $web-font-path: false !default;
   --color-dataviz-sgpc-bucket-typical: #56B4E9;
   --color-dataviz-sgpc-bucket-high: #009E73;
   --color-dataviz-sgpc-bucket-very-high: #0072B2;
+  --color-dataviz-sgpc-role-marginal: #0072B2;
+  --color-dataviz-sgpc-role-linkage: #D55E00;
+  --color-dataviz-sgpc-role-kernel: #CC79A7;
 }
 
 :root, body.quarto-dark, [data-bs-theme="dark"] {
