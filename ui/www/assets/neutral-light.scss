@@ -1,4 +1,4 @@
-// @dataimago/css-neutral@0.1.0-alpha.20 dist/quarto/neutral-light.scss · sha256:dfe46edf50f588266b0d638e903b195d682ba1db67c3cfc7bcd8f7a7673cb98b · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.20 dataimago-sync
+// @dataimago/css-neutral@0.1.0-alpha.22 dist/quarto/neutral-light.scss · sha256:702c7dacaf1090f004f8e46472f83281de458e2c61210dd15fe603f57fdca8e8 · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.22 dataimago-sync
 // neutral light theme for Quarto 1.11 — generated from the design tokens (tools/formats/quarto.mjs).
 // Bootstrap Sass variables are compile-time sRGB; runtime colours come from the custom properties below.
 
@@ -150,6 +150,9 @@ $web-font-path: false !default;
   --color-dataviz-sgpc-bucket-typical: #56B4E9;
   --color-dataviz-sgpc-bucket-high: #009E73;
   --color-dataviz-sgpc-bucket-very-high: #0072B2;
+  --color-dataviz-sgpc-role-marginal: #0072B2;
+  --color-dataviz-sgpc-role-linkage: #D55E00;
+  --color-dataviz-sgpc-role-kernel: #CC79A7;
 }
 
 :root, [data-bs-theme="light"] {
