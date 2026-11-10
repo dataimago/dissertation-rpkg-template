@@ -30,14 +30,21 @@ Severity: P1 blocks the PR; P2 should be fixed; P3 is optional.
 
 - `build-thesis.yml` builds from committed files and never fetches the registry
   or any class at build time. Flag any download of a `.cls`, a profile or a
-  partial in CI. (Installing TeX Live from CTAN is not a class download.)
+  partial in CI. (Installing the pinned TeX Live snapshot is not a class download.)
+- TeX Live is pinned: `TL_SNAPSHOT`, `TL_INSTALLER_SHA512` and `TL_TLPDB_SHA512`
+  in the Install TeX Live step of `build-thesis.yml` and
+  `template-thesis-check.yml` equal `tools/texlive-pin.txt` in the registry at
+  the commit in `registry-source.json` (checked by `template-thesis-check.yml`).
+  The installer is downloaded to a file and checked before it is unpacked, and
+  `install-tl` and `tlmgr` use only the snapshot. Flag a pin changed in one file
+  only, an install from the current CTAN mirror, and an unchecked download.
 - Quarto and the LaTeX engine agree: `documentclass: dataimago-thesis`,
   `pdf-engine: lualatex`, the six `template-partials` and the `thesis-divs.lua`
   filter in `_quarto.yml` match the files in `ui/www/thesis-class/`;
   `ui/www/_environment` puts `thesis-class/` and `profiles/` on `TEXINPUTS`;
   `thesis.profile` names a profile that has both `.yaml` and compiled `.cfg` in
   `ui/www/profiles/`; the `output-file: thesis` name matches `docs/thesis.pdf`.
-  The workflow installs a current TeX Live with the TeX Gyre fonts (the package
+  The workflow installs the pinned TeX Live with the TeX Gyre fonts (the package
   list of the registry's `tools/texlive-packages.txt`) and checks the fonts the
   PDF embeds (`check-pdf-fonts.sh`): a silent math-font fallback to Latin
   Modern Math must fail the run.
