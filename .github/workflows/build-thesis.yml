@@ -73,7 +73,7 @@ jobs:
         run: |
           TL="$HOME/texlive"
           mkdir -p /tmp/tlinst && cd /tmp/tlinst
-          curl -fsSL https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar xz --strip-components=1
+          curl -fsSL --retry 4 --retry-delay 5 --retry-all-errors https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar xz --strip-components=1
           cat > profile.txt <<EOP
           selected_scheme scheme-medium
           TEXDIR $TL
@@ -99,10 +99,17 @@ jobs:
         run: |
           BIN=$(ls -d "$HOME"/texlive/bin/*)
           echo "$BIN" >> "$GITHUB_PATH"
-          mkdir -p "$HOME/.config/fontconfig/conf.d"
-          cp "$HOME/texlive/texmf-var/fonts/conf/texlive-fontconfig.conf" "$HOME/.config/fontconfig/conf.d/09-texlive.conf"
-          fc-cache -f
-          fc-list | grep -m3 -i "TeX Gyre Termes"
+          # fontconfig serves only the XeLaTeX fallback (LuaLaTeX loads TeX Gyre from the
+          # TeX tree); the PDF's fonts are checked after render, so this part only warns.
+          CONF="$HOME/texlive/texmf-var/fonts/conf/texlive-fontconfig.conf"
+          if [ -f "$CONF" ]; then
+            mkdir -p "$HOME/.config/fontconfig/conf.d"
+            cp "$CONF" "$HOME/.config/fontconfig/conf.d/09-texlive.conf"
+            fc-cache -f || echo "::warning::fc-cache failed; an XeLaTeX fallback build may not find TeX Gyre."
+          else
+            echo "::warning::$CONF not found; fontconfig will not see TeX Gyre (only the XeLaTeX fallback needs it)."
+          fi
+          fc-list | grep -m3 -i -E "TeX ?Gyre ?Termes" || echo "::warning::fontconfig does not list TeX Gyre Termes; an XeLaTeX fallback build may not find it."
 
       - name: Render thesis PDF
         working-directory: ui/www
@@ -145,5 +152,15 @@ jobs:
       # Last, so the author still gets the PDF: LaTeX falls back to another
       # font without an error, so check the fonts the PDF embeds (the profile's
       # main and math fonts, all embedded, no Latin Modern Math fallback).
+      # Skipped when _quarto.yml does not use the house class (a vendored class has its own
+      # fonts); fails when it does and the check script is missing (a partial copy).
       - name: Check the PDF's fonts
-        run: sh ui/www/thesis-class/check-pdf-fonts.sh ui/www docs/thesis.pdf
+        run: |
+          if ! grep -q '^ *documentclass: *dataimago-thesis' ui/www/_quarto.yml; then
+            echo "Not the house class (a vendored class, or the older thesis.cls layout): the font check does not apply."
+          elif [ ! -f ui/www/thesis-class/check-pdf-fonts.sh ]; then
+            echo "::error::_quarto.yml uses the house class but ui/www/thesis-class/check-pdf-fonts.sh is missing. Restore it at the pinned commit with: python3 ui/www/thesis-class/sync.py sync (no --ref and no --profile: it restores every vendored file and profile at the commit recorded in ui/www/thesis-class/registry-source.json; --ref would update, not repair)."
+            exit 1
+          else
+            sh ui/www/thesis-class/check-pdf-fonts.sh ui/www docs/thesis.pdf
+          fi
