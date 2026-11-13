@@ -1,4 +1,4 @@
-// @dataimago/css-neutral@0.1.0-alpha.22 dist/quarto/neutral-dark.scss · sha256:3776bd4c43aa2aaf3021603657a9ad1e73c6fd8a35e665daf1ee7ff9c78cdf9e · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.22 dataimago-sync
+// @dataimago/css-neutral@0.1.0-alpha.26 dist/quarto/neutral-dark.scss · sha256:f50d814f7ef02b88c2cb7b179c0087f39227a5b5a6377b6dedabb5d5d8296950 · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.26 dataimago-sync
 // neutral dark theme for Quarto 1.11 — generated from the design tokens (tools/formats/quarto.mjs).
 // Bootstrap Sass variables are compile-time sRGB; runtime colours come from the custom properties below.
 
@@ -24,9 +24,9 @@ $callout-color-tip: #009e73 !default;
 $callout-color-important: #ef5350 !default;
 $callout-color-caution: #e69f00 !default;
 $callout-color-warning: #e69f00 !default;
-$font-family-sans-serif: Noto Sans, Noto Sans Math, system-ui, sans-serif !default;
-$font-family-monospace: Noto Sans Mono, SF Mono, Monaco, Inconsolata, monospace !default;
-$headings-font-family: Noto Sans, Noto Sans Math, system-ui, sans-serif !default;
+$font-family-sans-serif: Noto Sans, Noto Sans Fallback, Noto Sans Fallback Android, Noto Sans Math, system-ui, sans-serif !default;
+$font-family-monospace: Noto Sans Mono, Noto Sans Mono Fallback, SF Mono, Monaco, Inconsolata, monospace !default;
+$headings-font-family: Noto Sans, Noto Sans Fallback, Noto Sans Fallback Android, Noto Sans Math, system-ui, sans-serif !default;
 $headings-font-weight: 500 !default;
 $h2-font-size: 1.875rem !default;
 $web-font-path: false !default;
@@ -78,12 +78,12 @@ $web-font-path: false !default;
   --motion-duration-200: 200ms;
   --motion-duration-250: 250ms;
   --motion-duration-300: 300ms;
-  --font-family-sans: Noto Sans, Noto Sans Math, system-ui, sans-serif;
-  --font-family-mono: Noto Sans Mono, SF Mono, Monaco, Inconsolata, monospace;
+  --font-family-sans: Noto Sans, Noto Sans Fallback, Noto Sans Fallback Android, Noto Sans Math, system-ui, sans-serif;
+  --font-family-mono: Noto Sans Mono, Noto Sans Mono Fallback, SF Mono, Monaco, Inconsolata, monospace;
   --font-family-display: var(--font-family-display-editorial);
-  --font-family-display-editorial: Noto Sans, Noto Sans Math, system-ui, sans-serif;
-  --font-family-display-documentation: Noto Sans, Noto Sans Math, system-ui, sans-serif;
-  --font-family-brand: Noto Sans, system-ui, sans-serif;
+  --font-family-display-editorial: Noto Sans, Noto Sans Fallback, Noto Sans Fallback Android, Noto Sans Math, system-ui, sans-serif;
+  --font-family-display-documentation: Noto Sans, Noto Sans Fallback, Noto Sans Fallback Android, Noto Sans Math, system-ui, sans-serif;
+  --font-family-brand: Noto Sans, Noto Sans Fallback, Noto Sans Fallback Android, system-ui, sans-serif;
   --font-family-math: Noto Sans Math, math;
   --font-size-micro: 0.75rem;
   --font-size-small: 0.875rem;
@@ -153,6 +153,7 @@ $web-font-path: false !default;
   --color-dataviz-sgpc-role-marginal: #0072B2;
   --color-dataviz-sgpc-role-linkage: #D55E00;
   --color-dataviz-sgpc-role-kernel: #CC79A7;
+  --color-dataviz-figure-army-green: #58A145;
 }
 
 :root, body.quarto-dark, [data-bs-theme="dark"] {
@@ -168,6 +169,22 @@ $web-font-path: false !default;
   --color-surface-print: #f7f7f6;
   --color-surface-play-disc: rgba(247, 247, 246, 0.92);
   --color-surface-media: #000000;
+  --color-surface-state-strong-success: #33b588;
+  --color-surface-state-strong-warning: #e69f00;
+  --color-surface-state-strong-error: #ff776f;
+  --color-surface-state-strong-info: #d6d3d1;
+  --color-surface-state-strong-hover-success: #48c597;
+  --color-surface-state-strong-hover-warning: #f7af2a;
+  --color-surface-state-strong-hover-error: #ff958c;
+  --color-surface-state-strong-hover-info: #e6e3e1;
+  --color-surface-state-strong-pressed-success: #5bd5a7;
+  --color-surface-state-strong-pressed-warning: #ffc364;
+  --color-surface-state-strong-pressed-error: #ffafa7;
+  --color-surface-state-strong-pressed-info: #f7f4f2;
+  --color-surface-state-pale-success: #0d3325;
+  --color-surface-state-pale-warning: #39280b;
+  --color-surface-state-pale-error: #41211e;
+  --color-surface-state-pale-info: #2d2b29;
   --color-border-subtle: rgba(253, 249, 242, 0.45);
   --color-border-moderate: rgba(253, 249, 242, 0.60);
   --color-border-strong: rgba(253, 249, 242, 0.75);
@@ -175,12 +192,20 @@ $web-font-path: false !default;
   --color-border-code: #292524;
   --color-border-on-scrim-focus: #f7f7f6;
   --color-border-print: rgba(12, 10, 9, 0.45);
+  --color-border-state-strong-success: #33b588;
+  --color-border-state-strong-warning: #e69f00;
+  --color-border-state-strong-error: #ff776f;
+  --color-border-state-strong-info: #d6d3d1;
   --color-content-primary: #fdf9f2;
   --color-content-secondary: #a8a29e;
   --color-content-muted: #89827d;
   --color-content-inverse: #0c0a09;
   --color-content-on-scrim: #f7f7f6;
   --color-content-on-print: #14140f;
+  --color-content-on-state-strong-success: #14140f;
+  --color-content-on-state-strong-warning: #14140f;
+  --color-content-on-state-strong-error: #14140f;
+  --color-content-on-state-strong-info: #14140f;
   --color-interactive-primary: #d6d3d1;
   --color-interactive-hover: #a8a29e;
   --color-interactive-accent: #d6d3d1;
