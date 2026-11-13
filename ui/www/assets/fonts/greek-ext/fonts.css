@@ -1,4 +1,4 @@
-/* @dataimago/css-neutral@0.1.0-alpha.22 dist/fonts/greek-ext/fonts.css · sha256:4483a2b37ff134bda65fabfc9b0c5f91387b10f1e1ffd931d34a93e4be348e02 · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.22 dataimago-sync */
+/* @dataimago/css-neutral@0.1.0-alpha.26 dist/fonts/greek-ext/fonts.css · sha256:0d7b02001769a5879ae569469baa337c165cf2179e98f3bcdb2a9844d7829947 · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.26 dataimago-sync */
 @font-face {
   font-family: "Noto Sans";
   font-style: normal;
@@ -24,4 +24,64 @@
   font-display: swap;
   src: url("./noto-sans-mono.woff2") format("woff2");
   unicode-range: U+1F00-1FFF;
+}
+
+@font-face {
+  font-family: "Noto Sans Fallback";
+  font-style: normal;
+  font-weight: 100 549;
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 106.75%;
+  ascent-override: 100.14%;
+  descent-override: 27.45%;
+  line-gap-override: 0.00%;
+  unicode-range: U+1F00-1F15, U+1F18-1F1D, U+1F20-1F45, U+1F48-1F4D, U+1F50-1F57, U+1F59, U+1F5B, U+1F5D, U+1F5F-1F7D, U+1F80-1FB4, U+1FB6-1FC4, U+1FC6-1FD3, U+1FD6-1FDB, U+1FDD-1FEF, U+1FF2-1FF4, U+1FF6-1FFE;
+}
+
+@font-face {
+  font-family: "Noto Sans Fallback";
+  font-style: normal;
+  font-weight: 550 900;
+  src: local("Arial Bold"), local("Helvetica Bold"), local("Liberation Sans Bold");
+  size-adjust: 105.06%;
+  ascent-override: 101.75%;
+  descent-override: 27.89%;
+  line-gap-override: 0.00%;
+  unicode-range: U+1F00-1F15, U+1F18-1F1D, U+1F20-1F45, U+1F48-1F4D, U+1F50-1F57, U+1F59, U+1F5B, U+1F5D, U+1F5F-1F7D, U+1F80-1FB4, U+1FB6-1FC4, U+1FC6-1FD3, U+1FD6-1FDB, U+1FDD-1FEF, U+1FF2-1FF4, U+1FF6-1FFE;
+}
+
+@font-face {
+  font-family: "Noto Sans Fallback Android";
+  font-style: normal;
+  font-weight: 100 549;
+  src: local("Roboto"), local("Roboto Regular");
+  size-adjust: 106.51%;
+  ascent-override: 100.37%;
+  descent-override: 27.51%;
+  line-gap-override: 0.00%;
+  unicode-range: U+1F00-1F15, U+1F18-1F1D, U+1F20-1F45, U+1F48-1F4D, U+1F50-1F57, U+1F59, U+1F5B, U+1F5D, U+1F5F-1F7D, U+1F80-1FB4, U+1FB6-1FC4, U+1FC6-1FD3, U+1FD6-1FDB, U+1FDD-1FEF, U+1FF2-1FF4, U+1FF6-1FFE;
+}
+
+@font-face {
+  font-family: "Noto Sans Fallback Android";
+  font-style: normal;
+  font-weight: 550 900;
+  src: local("Roboto Bold");
+  size-adjust: 111.82%;
+  ascent-override: 95.60%;
+  descent-override: 26.20%;
+  line-gap-override: 0.00%;
+  unicode-range: U+1F00-1F15, U+1F18-1F1D, U+1F20-1F45, U+1F48-1F4D, U+1F50-1F57, U+1F59, U+1F5B, U+1F5D, U+1F5F-1F7D, U+1F80-1FB4, U+1FB6-1FC4, U+1FC6-1FD3, U+1FD6-1FDB, U+1FDD-1FEF, U+1FF2-1FF4, U+1FF6-1FFE;
+}
+
+@font-face {
+  font-family: "Noto Sans Mono Fallback";
+  font-style: normal;
+  font-weight: 100 900;
+  src: local("Courier New"), local("Liberation Mono"), local("Droid Sans Mono");
+  size-adjust: 99.98%;
+  ascent-override: 106.92%;
+  descent-override: 29.31%;
+  line-gap-override: 0.00%;
+  unicode-range: U+1F00-1F15, U+1F18-1F1D, U+1F20-1F45, U+1F48-1F4D, U+1F50-1F57, U+1F59, U+1F5B, U+1F5D, U+1F5F-1F7D, U+1F80-1FB4, U+1FB6-1FC4, U+1FC6-1FD3, U+1FD6-1FDB, U+1FDD-1FEF, U+1FF2-1FF4, U+1FF6-1FFE;
 }

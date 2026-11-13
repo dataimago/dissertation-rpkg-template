@@ -1,6 +1,6 @@
 {
   "package": "@dataimago/css-neutral",
-  "version": "0.1.0-alpha.22",
+  "version": "0.1.0-alpha.26",
   "outputs": {
     "quarto/neutral-light.scss": "assets/",
     "quarto/neutral-dark.scss": "assets/",
