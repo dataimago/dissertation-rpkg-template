@@ -1,4 +1,4 @@
-// @dataimago/css-neutral@0.1.0-alpha.26 dist/quarto/neutral-dark.scss · sha256:f50d814f7ef02b88c2cb7b179c0087f39227a5b5a6377b6dedabb5d5d8296950 · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.26 dataimago-sync
+// @dataimago/css-neutral@0.1.0-alpha.27 dist/quarto/neutral-dark.scss · sha256:945b96e43a2d060a4132b14a4edea94c0d732a83ab6e1b2c174951a34ebe8749 · generated from tokens; do not edit · restore: npx -p @dataimago/css-neutral@0.1.0-alpha.27 dataimago-sync
 // neutral dark theme for Quarto 1.11 — generated from the design tokens (tools/formats/quarto.mjs).
 // Bootstrap Sass variables are compile-time sRGB; runtime colours come from the custom properties below.
 
@@ -13,6 +13,7 @@ $code-color: #d6d3d1 !default;
 $code-bg: #1c1917 !default;
 $pre-color: #fdf9f2 !default;
 $border-color: #7d7b76 !default;
+$sidebar-bg: #141410 !default;
 $primary: #d6d3d1 !default;
 $secondary: #a8a29e !default;
 $success: #009e73 !default;
@@ -30,6 +31,7 @@ $headings-font-family: Noto Sans, Noto Sans Fallback, Noto Sans Fallback Android
 $headings-font-weight: 500 !default;
 $h2-font-size: 1.875rem !default;
 $web-font-path: false !default;
+$text-muted: #a8a29e;
 
 /*-- scss:rules --*/
 // ── Design tokens (contract custom properties) ───────────────────────
@@ -73,6 +75,7 @@ $web-font-path: false !default;
   --motion-exit: 120ms;
   --motion-ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --motion-ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-duration-120: 120ms;
   --motion-duration-160: 160ms;
   --motion-duration-200: 200ms;
@@ -327,7 +330,12 @@ div.csl-entry {
   border-color: var(--color-border-subtle);
 }
 
-.column-margin, .margin-aside, figcaption {
+// Secondary text: margin notes, captions and block quotes. Quarto colours captions and quotes with its
+// body-secondary mixin, a compile-time dimming of the body colour (olive #5d5d46 light, amber #ecc684 dark), not
+// content.secondary; `.column-margin figcaption` and `.margin-caption` are named so a margin caption is covered at
+// Quarto's specificity (wi-20261106-quarto-theme-sidebar-muted-quote, 2026-11-13).
+.column-margin, .margin-aside, figcaption, .column-margin figcaption, figcaption.margin-caption, .margin-caption,
+.figure-caption, .subfigure-caption, .table-caption, caption, blockquote, .blockquote {
   color: var(--color-content-secondary);
 }
 
