@@ -27,6 +27,7 @@ The `ui/www/` Quarto root follows the dataimago framework's convention for R pac
 | `ui/www/_environment` | Puts `thesis-class/` and `profiles/` on LaTeX's search path for Quarto |
 | `ui/www/references.bib` | BibTeX bibliography |
 | `.github/workflows/build-thesis.yml` | Renders PDF on push (Quarto + LuaLaTeX); commits to `docs/thesis.pdf` |
+| `.github/workflows/quarto-publish.yml` | Publishes the HTML book + PDF to GitHub Pages, from a public repository only (see Constraints) |
 | `.github/workflows/R-CMD-check.yml` | R CMD check on push + PR |
 
 ## When the user asks for help
@@ -60,8 +61,9 @@ The author's `dataimago-spec.yaml` lives in the **app repo** (the dissertation's
 - **Don't hand-edit the web book's synced design files** (`ui/www/assets/neutral-*.scss`, `ui/www/assets/fonts/`; each text file's first line says "do not edit"). Put a site-specific rule in `ui/www/assets/site.scss`; upgrade or opt out as `README.md` ("The site's look") describes.
 - **Don't hand-edit the vendored thesis class** (`ui/www/thesis-class/*` except `sync.py` and `check-pdf-fonts.sh`, and `ui/www/profiles/house.*` plus any other shipped profile). Put an institution's rules in a profile of your own; update the copy with `sync.py`. `python3 ui/www/thesis-class/sync.py check` shows what differs from the registry.
 - **Don't commit secrets.** No API keys; no institutional credentials.
-- **Never put identifiable personal data in git** (participant data, names with addresses, IDs). Analysis data that identifies people stays out of this public-by-default repository.
-- **Public repository + unpublished work = warn first.** If this repository is public and holds unpublished chapters or results, tell the author before pushing and show them how to make it private (Settings → General → Danger Zone → Change visibility).
+- **Never put identifiable personal data in git** (participant data, names with addresses, IDs). Analysis data that identifies people stays out of this repository, public or private.
+- **Check the repository's visibility before pushing** (`gh repo view --json visibility`, or the label beside the repository's name on GitHub). **Public repository + unpublished work = warn first.** If this repository is public and holds unpublished chapters or results, tell the author before pushing and show them how to make it private (Settings → General → Danger Zone → Change visibility).
+- **A private repository publishes no website.** `quarto-publish.yml` deploys the HTML book and the PDF to GitHub Pages only when the repository is public, because a Pages site is on the public web even when its repository is private. The repository variable `PUBLISH_PAGES_FROM_PRIVATE` overrides that. Never set it, and never change the repository's visibility, without the author's explicit go-ahead: either one publishes their unpublished work.
 
 ## Editing this file
 

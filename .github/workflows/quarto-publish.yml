@@ -5,6 +5,13 @@ name: Publish Quarto Site
 # so this never races build-thesis.yml's commit-back loop. The workflow_run
 # trigger republishes the site after each PDF rebuild (the bot's skip-ci
 # commit suppresses push events but not workflow_run).
+#
+# A GitHub Pages site is on the public web even when its repository is private
+# (a paid plan allows that; on the free plan a private repository cannot have
+# Pages at all, so the deploy would fail). So a private repository publishes
+# nothing, and the site is not even built, unless the author opts in with the
+# repository variable PUBLISH_PAGES_FROM_PRIVATE set to `true` (Settings ->
+# Secrets and variables -> Actions -> Variables). See README.md, "The website".
 
 on:
   push:
@@ -35,6 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ready: ${{ steps.check.outputs.ready }}
+      publish: ${{ steps.visibility.outputs.publish }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -49,12 +57,33 @@ jobs:
           else
             echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
+      # Publish only from a public repository, or from a private one whose
+      # author opted in. The event payload's `repository.private` says which;
+      # only the exact value `false` counts as public, so an unreadable or
+      # missing value publishes nothing.
+      - id: visibility
+        if: steps.check.outputs.ready == 'true'
+        env:
+          OPT_IN: ${{ vars.PUBLISH_PAGES_FROM_PRIVATE }}
+        run: |
+          private=$(jq -r '.repository.private' "$GITHUB_EVENT_PATH" 2>/dev/null || true)
+          if [ "$private" = "false" ]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          elif [ "$OPT_IN" = "true" ]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::This repository is not public, and the repository variable PUBLISH_PAGES_FROM_PRIVATE is true: publishing the thesis site to the public web."
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Nothing was published: this repository is private (or its visibility could not be read), and a GitHub Pages site is public. To publish the thesis site, make the repository public, or (on a paid GitHub plan) set the repository variable PUBLISH_PAGES_FROM_PRIVATE to true. See README.md, \"The website\"."
+          fi
 
   build-site:
     needs: guard
-    # Never run in the template repo itself.
+    # Never run in the template repo itself, nor in a private repository that
+    # has not opted in (guard's `publish` output): nothing would be deployed.
     if: >-
       needs.guard.outputs.ready == 'true' &&
+      needs.guard.outputs.publish == 'true' &&
       (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     permissions:
@@ -101,8 +130,12 @@ jobs:
           path: docs
 
   deploy:
-    needs: build-site
-    if: github.repository != 'dataimago/dissertation-rpkg-template'
+    needs: [guard, build-site]
+    # The visibility gate again, on the job that publishes, so a later change
+    # to build-site's condition cannot open it.
+    if: >-
+      github.repository != 'dataimago/dissertation-rpkg-template' &&
+      needs.guard.outputs.publish == 'true'
     runs-on: ubuntu-latest
     permissions:
       pages: write
