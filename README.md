@@ -2,7 +2,7 @@
 
 > R package supporting {{user.name}}'s dissertation, "{{thesis.workingTitle}}", provisioned via [dissertation.ai](https://dissertation-ai.dataimago.ai).
 
-**📖 Website:** [{{user.githubUsername}}.github.io/{{rPackage.name}}](https://{{user.githubUsername}}.github.io/{{rPackage.name}}/) — the thesis as an HTML book, the latest thesis PDF, and the R package reference rendered from the roxygen docs. **This address works only once the repository is public and GitHub Pages is turned on**; while the repository is private there is no site and the link leads nowhere. See [The website](#the-website).
+**📖 Website:** [{{user.githubUsername}}.github.io/{{rPackage.name}}](https://{{user.githubUsername}}.github.io/{{rPackage.name}}/) — the thesis as an HTML book, the latest thesis PDF, and the R package reference rendered from the roxygen docs. **The address is live only once GitHub Pages is turned on and the site has been published**: from a public repository, or from a private one that has opted in. A repository that starts private has no site, and the link leads nowhere, until you do one or the other. A site already published can stay up after its repository is made private. See [The website](#the-website).
 
 This package is the **R-package half** of a two-repo dissertation environment. The NextJS app half lives at [`github.com/{{user.githubUsername}}/{{metadata.name}}`](https://github.com/{{user.githubUsername}}/{{metadata.name}}) and includes this package as a Git submodule at `packages/r-packages/{{rPackage.name}}/`.
 
@@ -69,7 +69,7 @@ You only need this to build the thesis on your own machine; pushing to `main` bu
 - **A private repository publishes nothing.** A GitHub Pages site is on the public web even when the repository behind it is private, so the workflow builds and deploys the site only when the repository is public. In a private repository each run ends with a notice saying nothing was published; that is not a failure.
 - **To publish**, make the repository public (Settings → General → Danger Zone → Change visibility), then turn on Pages once (Settings → Pages → Source: "GitHub Actions"). The site goes live after the next push to `main`. Making the repository public shows everyone your chapters, your code and their history, not only the site.
 - **To publish the site and keep the repository private**, you need a paid GitHub plan: on the free plan a private repository cannot have Pages. Turn on Pages as above, then add a repository variable named `PUBLISH_PAGES_FROM_PRIVATE` with the value `true` (Settings → Secrets and variables → Actions → Variables). Your thesis is then readable by anyone who has the address, while the repository stays private.
-- **If you make a public repository private again**, on the free plan GitHub takes the site down. On a paid plan the site already published stays up until you unpublish it (Settings → Pages).
+- **If you make a public repository private again**, the workflow stops publishing new versions. On the free plan GitHub also takes the site down. On a paid plan the site already published stays on the public web until you unpublish it (Settings → Pages), so do that too if you mean to take your work offline.
 - Once the site exists, you can add its address to `URL:` in `DESCRIPTION`.
 
 ### GitHub Actions use in a private repository
