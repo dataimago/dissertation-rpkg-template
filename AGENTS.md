@@ -27,7 +27,7 @@ The `ui/www/` Quarto root follows the dataimago framework's convention for R pac
 | `ui/www/_environment` | Puts `thesis-class/` and `profiles/` on LaTeX's search path for Quarto |
 | `ui/www/references.bib` | BibTeX bibliography |
 | `.github/workflows/build-thesis.yml` | Renders PDF on push (Quarto + LuaLaTeX); commits to `docs/thesis.pdf` |
-| `.github/workflows/quarto-publish.yml` | Publishes the HTML book + PDF to GitHub Pages, from a public repository only (see Constraints) |
+| `.github/workflows/quarto-publish.yml` | Publishes the HTML book + PDF to GitHub Pages: from a public repository, or from a private one whose author opted in; otherwise nothing (see Constraints) |
 | `.github/workflows/R-CMD-check.yml` | R CMD check on push + PR |
 
 ## When the user asks for help
@@ -63,7 +63,7 @@ The author's `dataimago-spec.yaml` lives in the **app repo** (the dissertation's
 - **Don't commit secrets.** No API keys; no institutional credentials.
 - **Never put identifiable personal data in git** (participant data, names with addresses, IDs). Analysis data that identifies people stays out of this repository, public or private.
 - **Check the repository's visibility before pushing** (`gh repo view --json visibility`, or the label beside the repository's name on GitHub). **Public repository + unpublished work = warn first.** If this repository is public and holds unpublished chapters or results, tell the author before pushing and show them how to make it private (Settings → General → Danger Zone → Change visibility).
-- **A private repository deploys no website unless its author opts in.** A GitHub Pages site is on the public web even when its repository is private, so `quarto-publish.yml` has three cases: a public repository deploys the HTML book and the PDF; a private one deploys nothing unless the repository variable `PUBLISH_PAGES_FROM_PRIVATE` is `true`; and a site that was already published stays up after the repository is made private (on a paid GitHub plan) until the author unpublishes it at Settings → Pages. Making a repository private stops new deploys only, so when an author makes one private to protect unpublished work, show them that unpublish step too. Never set the variable, and never make the repository public, without the author's explicit go-ahead: either one publishes their unpublished work.
+- **A private repository deploys no website unless its author opts in.** A GitHub Pages site is on the public web even when its repository is private, so `quarto-publish.yml` has three cases: a public repository deploys the HTML book and the PDF; a private one deploys nothing unless the repository variable `PUBLISH_PAGES_FROM_PRIVATE` is `true`; and a site that was already published stays up after the repository is made private (on a paid GitHub plan) until the author unpublishes it at Settings → Pages. Making a repository private stops new deploys only when that variable is not `true`, and never takes down a site already published. So when an author makes a repository private to protect unpublished work, check both and tell them: a variable still set to `true` keeps publishing every push until it is deleted (Settings → Secrets and variables → Actions → Variables), and the existing site needs the unpublish step. Never set or delete the variable, and never change the repository's visibility, without the author's explicit go-ahead: setting it, or making the repository public, publishes their unpublished work.
 
 ## Editing this file
 

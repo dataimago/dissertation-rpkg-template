@@ -18,7 +18,7 @@ This package is the **R-package half** of a two-repo dissertation environment. T
 | `ui/www/profiles/` | Your institution's formatting rules as a profile (`house` to start) |
 | `ui/www/references.bib` | BibTeX bibliography |
 | `.github/workflows/build-thesis.yml` | Renders thesis PDF (Quarto + LuaLaTeX) on every push that touches `ui/www/` or `R/` |
-| `.github/workflows/quarto-publish.yml` | Publishes the HTML book + PDF + package reference to GitHub Pages, when the repository is public (see "The website") |
+| `.github/workflows/quarto-publish.yml` | Publishes the HTML book + PDF + package reference to GitHub Pages: from a public repository, or from a private one that opted in; otherwise it publishes nothing (see "The website") |
 | `.github/workflows/R-CMD-check.yml` | R package CI |
 | `.github/workflows/design-sync-check.yml` | Fails if the web book's synced theme or fonts were edited by hand (see "The site's look") |
 | `DESCRIPTION` | R package metadata |
@@ -66,10 +66,10 @@ You only need this to build the thesis on your own machine; pushing to `main` bu
 
 `quarto-publish.yml` publishes the thesis as an HTML book, with the latest PDF and the R package reference, to GitHub Pages (GitHub's website hosting).
 
-- **A private repository publishes nothing.** A GitHub Pages site is on the public web even when the repository behind it is private, so the workflow builds and deploys the site only when the repository is public. In a private repository each run ends with a notice saying nothing was published; that is not a failure.
+- **A private repository publishes nothing unless you opt in.** A GitHub Pages site is on the public web even when the repository behind it is private. So there are three cases: a public repository publishes; a private one publishes only when the repository variable `PUBLISH_PAGES_FROM_PRIVATE` is `true` (below); otherwise the run succeeds, builds nothing and deploys nothing, and ends with a notice saying so. That notice is not a failure.
 - **To publish**, make the repository public (Settings → General → Danger Zone → Change visibility), then turn on Pages once (Settings → Pages → Source: "GitHub Actions"). The site goes live after the next push to `main`. Making the repository public shows everyone your chapters, your code and their history, not only the site.
 - **To publish the site and keep the repository private**, you need a paid GitHub plan: on the free plan a private repository cannot have Pages. Turn on Pages as above, then add a repository variable named `PUBLISH_PAGES_FROM_PRIVATE` with the value `true` (Settings → Secrets and variables → Actions → Variables). Your thesis is then readable by anyone who has the address, while the repository stays private.
-- **If you make a public repository private again**, the workflow stops publishing new versions. On the free plan GitHub also takes the site down. On a paid plan the site already published stays on the public web until you unpublish it (Settings → Pages), so do that too if you mean to take your work offline.
+- **If you make a public repository private again**, the workflow stops publishing new versions, unless `PUBLISH_PAGES_FROM_PRIVATE` is `true`: that variable keeps publishing every push until you delete it (Settings → Secrets and variables → Actions → Variables). On the free plan GitHub also takes the site down. On a paid plan the site already published stays on the public web until you unpublish it (Settings → Pages). To take your work offline, do both.
 - Once the site exists, you can add its address to `URL:` in `DESCRIPTION`.
 
 ### GitHub Actions use in a private repository
