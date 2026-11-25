@@ -139,7 +139,10 @@ jobs:
         with:
           name: thesis-pdf
           path: docs/thesis.pdf
-          retention-days: 30
+          # The PDF is also committed to docs/thesis.pdf below; a short
+          # retention keeps a private repository inside its plan's artifact
+          # storage.
+          retention-days: 7
 
       - name: Commit rendered PDF to repo
         if: github.event_name == 'push'

@@ -95,8 +95,9 @@ Severity: P1 blocks the PR; P2 should be fixed; P3 is optional.
 ## Alignment concern format
 
 When a changed line conflicts with the author-agency commitments (the author's
-scholarship stays theirs; AI proposes, the author decides; public-by-default
-repos warn before unpublished work), title the finding
+scholarship stays theirs; AI proposes, the author decides; a public
+repo warns before unpublished work, and a private repo publishes no website
+unless its author opts in), title the finding
 `Alignment concern: <short slug>` with `Location:`, `Contract/evidence:`,
 `Impact:` and `Corrective action:` lines. PR-level feedback only; never a score
 or release decision.
