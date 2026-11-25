@@ -55,10 +55,10 @@ You only need this to build the thesis on your own machine; pushing to `main` bu
 
 | What you want to change | Where |
 |---|---|
-| Thesis chapter content | `ui/www/chapters/*.qmd` |
+| Thesis chapter content | `ui/www/chapters/*.qmd`, one file per chapter (to add one, copy `chapters/_chapter.qmd` and list it under `chapters:` in `ui/www/_quarto.yml`) |
 | Bibliography | `ui/www/references.bib` |
 | Thesis formatting (margins, fonts, spacing, front pages) | a profile in `ui/www/profiles/` (see `ui/www/THESIS-CLS-README.md`) |
-| Title page details (degree, department, committee) | the `thesis:` block in `ui/www/_quarto.yml` |
+| Title page details (degree, department, committee) | the `thesis:` block in `ui/www/_quarto.yml`, the one place the PDF reads them from |
 | Quarto book config (chapters list, PDF format) | `ui/www/_quarto.yml` |
 | Methodology R code | `R/*.R` |
 
