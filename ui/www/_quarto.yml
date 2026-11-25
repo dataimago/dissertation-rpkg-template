@@ -10,15 +10,13 @@ book:
   # Pin the single-file PDF name so build-thesis.yml finds `docs/thesis.pdf`
   # (a book PDF is otherwise named from the title → the upload/commit missed it).
   output-file: thesis
+  # The book, in order. dissertation.ai puts your chapters between the front
+  # matter and the back matter, one file each, from the chapters you gave in
+  # the interview. To add a chapter, copy chapters/_chapter.qmd to a new file,
+  # change its heading, and list the file here.
   chapters:
     - index.qmd
     - chapters/00-front-matter.qmd
-    - chapters/01-introduction.qmd
-    - chapters/02-literature-review.qmd
-    - chapters/03-methodology.qmd
-    - chapters/04-results.qmd
-    - chapters/05-discussion.qmd
-    - chapters/06-conclusion.qmd
     - chapters/99-back-matter.qmd
   appendices:
     - ai-contribution-statement.qmd
@@ -30,18 +28,25 @@ lang: en-US
 # and the profile named here (profiles/<id>.yaml). Everything the class needs
 # to know about you is below; formatting rules (margins, fonts, spacing, page
 # numbers) live in the profile, not in this file. See THESIS-CLS-README.md.
-# Replace each "Your ..." stand-in; the class stops the build if one is empty.
+# This block is the one place the title page and the committee page are read
+# from. dissertation.ai fills it in from your interview answers when it makes
+# your repository; after that, edit it here. The class stops the build if a
+# field is empty.
 thesis:
   profile: house # the formatting profile in profiles/; see THESIS-CLS-README.md
   institution: "{{institution.name}}"
-  # Your spec records the program as "{{institution.degreeProgram}}"; write the
-  # degree the way the title page should read it.
+  # The degree as the title page reads it. dissertation.ai splits the program
+  # you gave ("{{institution.degreeProgram}}") into a name and a field when it
+  # can; check both.
   degree:
     name: Doctor of Philosophy
     field: Your Field
+  # The interview does not ask for your department: write it here.
   department: "Your Department"
+  # The interview asks for names only, so each title is a stand-in: correct it.
   advisors:
     - { name: "Your Advisor", title: Professor, role: chair }
+  # One line for each member; the class needs at least one.
   committee:
     - { name: "Committee Member One", title: Professor }
     - { name: "Committee Member Two", title: Professor }

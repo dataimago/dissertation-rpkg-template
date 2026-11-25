@@ -1,9 +1,9 @@
 ---
 abstract: |
   Your dissertation abstract: typically one paragraph, about 250 to 350 words
-  depending on institutional convention. Pull from your `dataimago-spec.yaml`'s
-  `vertical.dissertation.thesis.contribution` field as a starting point. The
-  PDF prints this field on the abstract page; the web book shows it on this page.
+  depending on your institution. dissertation.ai starts it from your interview
+  answers. The PDF prints it on the abstract page; the web book shows it on
+  this page.
 ---
 
 ::: {.content-visible when-format="html"}
@@ -19,17 +19,6 @@ to `ui/www/` or `R/`; a stable copy is committed to `docs/thesis.pdf` by the
 
 **Read it:** [the thesis PDF](thesis.pdf) (latest CI build) · [the R package
 reference](r-package.qmd) (functions, rendered from the roxygen docs).
-
-## Chapters
-
-- [Front matter](chapters/00-front-matter.qmd)
-- [Introduction](chapters/01-introduction.qmd)
-- [Literature review](chapters/02-literature-review.qmd)
-- [Methodology](chapters/03-methodology.qmd)
-- [Results](chapters/04-results.qmd)
-- [Discussion](chapters/05-discussion.qmd)
-- [Conclusion](chapters/06-conclusion.qmd)
-- [Back matter](chapters/99-back-matter.qmd)
 
 ## Formatting
 
