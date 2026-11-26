@@ -110,4 +110,4 @@ This R package + the dissertation app at `github.com/{{user.githubUsername}}/{{m
 
 ## License
 
-MIT
+MIT is where this package starts: `LICENSE` names you as its copyright holder, and `LICENSE.md` holds the licence text, with dataimago's notice for the parts that came from the template. The package is your work, so the licence is your choice: to change it, edit the `License:` line in `DESCRIPTION` and the two files, and keep dataimago's notice and the MIT text for the template's parts. Files that carry their own licence notice keep it: the thesis class in `ui/www/thesis-class/` (LPPL 1.3c) and the fonts in `ui/www/assets/fonts/` (SIL Open Font License).

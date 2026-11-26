@@ -12,3 +12,4 @@
 ^ui/www/_book$
 ^ui/www/\.quarto$
 ^ui/www/\.dataimago$
+^LICENSE\.md$
