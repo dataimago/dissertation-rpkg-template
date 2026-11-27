@@ -62,7 +62,7 @@ Ask your AI assistant: *"Set up my shipped thesis profile."* It does the steps b
 
 Your formatting guidelines are in your app repo at `raw/thesis-formatting/<filename>` (you attached them during the interview). If you have none yet, the `house` profile is used unchanged until you add them.
 
-1. **Ask your AI assistant:** *"Turn my formatting guide into a profile"* (in Claude Code, `/thesis-format`). It copies `profiles/house.yaml` to `profiles/<id>.yaml` and changes only what the guide states, citing the page or section for each value and listing what the guide leaves unstated.
+1. **Ask your AI assistant:** *"Turn my formatting guide into a profile"* (in Claude Code, `/thesis-format`). It copies `profiles/house.yaml` to `profiles/<id>.yaml`, deletes the two licence lines at the top of the copy (they are dataimago's notice for the house profile; your profile is yours) and changes only what the guide states, citing the page or section for each value and listing what the guide leaves unstated.
 2. **Compile it:** from this folder, `texlua thesis-class/thesis-profile.lua profiles <id>` writes `profiles/<id>.cfg`. (Use `quarto pandoc lua` in place of `texlua` if you do not have TeX Live's.)
 3. **Select it:** change `profile:` to `<id>` in the `thesis:` block of `_quarto.yml`, render, and compare the PDF with the guide. Repeat until it matches. Check every value against the guide yourself.
 4. **Push.** `build-thesis.yml` rebuilds the PDF.

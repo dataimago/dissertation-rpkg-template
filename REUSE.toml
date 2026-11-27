@@ -46,7 +46,7 @@ path = [
   "tests/testthat/test-template.R",
 ]
 SPDX-FileCopyrightText = [
-  "The package's author, named in LICENSE",
+  "{{rpkgRepo.createdYear}} {{user.name}}",
   "2026 dataimago, for the parts that came from dissertation-rpkg-template",
 ]
 SPDX-License-Identifier = "MIT"
