@@ -7,11 +7,15 @@
 # The package's notices are in LICENSE and LICENSE.md at the root.
 #
 # The thesis is not the package. The chapters under ui/www/chapters/,
-# ui/www/index.qmd, ui/www/references.bib, the other pages and settings the
-# author writes under ui/www/ and everything under writing/ have no entry
-# here and no notice of their own: they are the author's work, and nothing
-# in this repository gives anybody a right to reuse them. No pattern below
-# reaches into those places.
+# ui/www/index.qmd, ui/www/references.bib and the other pages and settings
+# the author writes under ui/www/ have no entry here and no notice of their
+# own: they are the author's work, and nothing in this repository gives
+# anybody a right to reuse them. No pattern below reaches into those places.
+#
+# writing/ has no entry here either. Its two shipped files are dataimago's
+# and carry an MIT notice inside the file, which licenses the whole file. A
+# style guide of the author's own replaces writing/STYLE.md and leaves the
+# notice out.
 #
 # The files that came from dataimago keep their own licences and are named
 # one by one: the template's tooling (MIT), the thesis class (LPPL 1.3c or
@@ -28,16 +32,30 @@
 version = 1
 
 # The package code. MIT is the licence the package starts with; it is the
-# author's package, so the author can change it (see the README). The
-# patterns cover code the author adds, on purpose.
+# author's package, so the author can change it (see the README, which says
+# to change this entry too). The patterns cover code the author adds, on
+# purpose, and name the author alone.
 [[annotations]]
 path = [
   "R/**",
   "tests/**",
   "man/**",
+]
+SPDX-FileCopyrightText = "The package's author, named in LICENSE"
+SPDX-License-Identifier = "MIT"
+
+# The package files that came from the template, named one by one: the
+# author's, with dataimago's notice for the template's parts. This entry
+# comes after the patterns above so that it is the one that applies to
+# these files.
+[[annotations]]
+path = [
   "DESCRIPTION",
   "NAMESPACE",
   "NEWS.md",
+  "R/dissertation-package.R",
+  "tests/testthat.R",
+  "tests/testthat/test-template.R",
 ]
 SPDX-FileCopyrightText = [
   "The package's author, named in LICENSE",

@@ -14,3 +14,6 @@ As with the thesis profile (see `ui/www/THESIS-CLS-README.md`),
 generated-mode work happens **in this repo, with your AI, at edit time** —
 not during onboarding. The spec field can change at any point by editing
 `dataimago-spec.yaml` directly.
+
+<!-- SPDX-FileCopyrightText: 2026 dataimago
+     SPDX-License-Identifier: MIT -->
