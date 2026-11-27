@@ -12,10 +12,11 @@
 # own: they are the author's work, and nothing in this repository gives
 # anybody a right to reuse them. No pattern below reaches into those places.
 #
-# writing/ has no entry here either. Its two shipped files are dataimago's
-# and carry an MIT notice inside the file, which licenses the whole file. A
-# style guide of the author's own replaces writing/STYLE.md and leaves the
-# notice out.
+# The two shipped files under writing/ are dataimago's. writing/README.md is
+# listed below. writing/STYLE.md carries its MIT notice inside the file,
+# which licenses the whole file: a style guide of the author's own replaces
+# it and leaves the notice out. Anything else the author puts under
+# writing/ has no entry.
 #
 # The files that came from dataimago keep their own licences and are named
 # one by one: the template's tooling (MIT), the thesis class (LPPL 1.3c or
@@ -31,23 +32,10 @@
 
 version = 1
 
-# The package code. MIT is the licence the package starts with; it is the
-# author's package, so the author can change it (see the README, which says
-# to change this entry too). The patterns cover code the author adds, on
-# purpose, and name the author alone.
-[[annotations]]
-path = [
-  "R/**",
-  "tests/**",
-  "man/**",
-]
-SPDX-FileCopyrightText = "The package's author, named in LICENSE"
-SPDX-License-Identifier = "MIT"
-
 # The package files that came from the template, named one by one: the
-# author's, with dataimago's notice for the template's parts. This entry
-# comes after the patterns above so that it is the one that applies to
-# these files.
+# author's, with dataimago's notice for the template's parts. Code the
+# author adds has no entry here: DESCRIPTION and LICENSE, which name the
+# author, are what license it. man/.gitkeep is empty and needs no entry.
 [[annotations]]
 path = [
   "DESCRIPTION",
@@ -106,6 +94,7 @@ path = [
   "ui/www/thesis-class/check-pdf-fonts.sh",
   "ui/www/thesis-class/registry-source.json",
   "ui/www/thesis-class/sync.py",
+  "writing/README.md",
 ]
 SPDX-FileCopyrightText = "2026 dataimago"
 SPDX-License-Identifier = "MIT"
