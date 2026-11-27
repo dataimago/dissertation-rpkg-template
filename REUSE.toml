@@ -1,0 +1,161 @@
+# What is licensed in this repository, and by whom, file by file (REUSE 3.3,
+# https://reuse.software/spec-3.3/).
+#
+# The R package is the code: R/, tests/, man/, DESCRIPTION and NAMESPACE.
+# `License: MIT + file LICENSE` in DESCRIPTION covers that and nothing else,
+# because .Rbuildignore keeps ui/www/ and writing/ out of the built package.
+# The package's notices are in LICENSE and LICENSE.md at the root.
+#
+# The thesis is not the package. The chapters under ui/www/chapters/,
+# ui/www/index.qmd, ui/www/references.bib and the other pages and settings
+# the author writes under ui/www/ have no entry here and no notice of their
+# own: they are the author's work, and nothing in this repository gives
+# anybody a right to reuse them. No pattern below reaches into those places.
+#
+# The two shipped files under writing/ are dataimago's. writing/README.md is
+# listed below. writing/STYLE.md carries its MIT notice inside the file,
+# which licenses the whole file: a style guide of the author's own replaces
+# it and leaves the notice out. Anything else the author puts under
+# writing/ has no entry.
+#
+# The files that came from dataimago keep their own licences and are named
+# one by one: the template's tooling (MIT), the thesis class (LPPL 1.3c or
+# later) and the Noto fonts (SIL Open Font License 1.1, the Noto Project
+# Authors). The texts are in LICENSES/.
+#
+# An entry stays true only while the file is still the template's. If you
+# replace a listed file with your own, delete its line.
+#
+# `precedence` is left at its default (`closest`): a copyright and licence
+# header inside a file replaces the entry for that file here, for the whole
+# file.
+
+version = 1
+
+# The package files that came from the template, named one by one: the
+# author's, with dataimago's notice for the template's parts. Code the
+# author adds has no entry here: DESCRIPTION and LICENSE, which name the
+# author, are what license it. man/.gitkeep is empty and needs no entry.
+[[annotations]]
+path = [
+  "DESCRIPTION",
+  "NAMESPACE",
+  "NEWS.md",
+  "R/dissertation-package.R",
+  "tests/testthat.R",
+  "tests/testthat/test-template.R",
+]
+SPDX-FileCopyrightText = [
+  "The package's author, named in LICENSE",
+  "2026 dataimago, for the parts that came from dissertation-rpkg-template",
+]
+SPDX-License-Identifier = "MIT"
+
+# dataimago's template files outside the package code.
+[[annotations]]
+path = [
+  ".Rbuildignore",
+  ".gitattributes",
+  ".github/template-review/RULES.md",
+  ".github/workflows/R-CMD-check.yml",
+  ".github/workflows/build-thesis.yml",
+  ".github/workflows/composer-review.yml",
+  ".github/workflows/design-sync-check.yml",
+  ".github/workflows/quarto-publish.yml",
+  ".github/workflows/template-thesis-check.yml",
+  ".gitignore",
+  "AGENTS.md",
+  "CLAUDE.md",
+  "README.md",
+  "REUSE.toml",
+  "ui/www/.dataimago/design-update.json",
+  "ui/www/.dataimago/design.json",
+  "ui/www/.dataimago/specimen-profile.yml",
+  "ui/www/.dataimago/specimen.md",
+  "ui/www/.gitignore",
+  "ui/www/THESIS-CLS-README.md",
+  "ui/www/_environment",
+  "ui/www/_quarto-web.yml",
+  "ui/www/assets/a11y-fixups.html",
+  "ui/www/assets/a11y-skip-link.html",
+  "ui/www/assets/fonts/cyrillic-ext/fonts.css",
+  "ui/www/assets/fonts/cyrillic/fonts.css",
+  "ui/www/assets/fonts/greek-ext/fonts.css",
+  "ui/www/assets/fonts/greek/fonts.css",
+  "ui/www/assets/fonts/lang.css",
+  "ui/www/assets/fonts/latin-ext/fonts.css",
+  "ui/www/assets/fonts/latin/fonts.css",
+  "ui/www/assets/fonts/math/fonts.css",
+  "ui/www/assets/fonts/vietnamese/fonts.css",
+  "ui/www/assets/neutral-dark.scss",
+  "ui/www/assets/neutral-light.scss",
+  "ui/www/profiles/house.cfg",
+  "ui/www/profiles/house.yaml",
+  "ui/www/thesis-class/check-pdf-fonts.sh",
+  "ui/www/thesis-class/registry-source.json",
+  "ui/www/thesis-class/sync.py",
+  "writing/README.md",
+]
+SPDX-FileCopyrightText = "2026 dataimago"
+SPDX-License-Identifier = "MIT"
+
+# The house thesis class, copied from dataimago/dissertation-thesis-classes.
+# Each file carries the same notice in its own header.
+[[annotations]]
+path = [
+  "ui/www/thesis-class/before-body.tex",
+  "ui/www/thesis-class/dataimago-thesis.cls",
+  "ui/www/thesis-class/doc-class.tex",
+  "ui/www/thesis-class/font-settings.latex",
+  "ui/www/thesis-class/fonts.latex",
+  "ui/www/thesis-class/thesis-divs.lua",
+  "ui/www/thesis-class/thesis-profile.lua",
+  "ui/www/thesis-class/title.tex",
+  "ui/www/thesis-class/toc.tex",
+]
+SPDX-FileCopyrightText = "2026 dataimago"
+SPDX-License-Identifier = "LPPL-1.3c+"
+
+# The Noto fonts and the licence texts shipped beside them.
+[[annotations]]
+path = [
+  "ui/www/assets/fonts/cyrillic-ext/OFL-NotoSans.txt",
+  "ui/www/assets/fonts/cyrillic-ext/OFL-NotoSansMono.txt",
+  "ui/www/assets/fonts/cyrillic-ext/noto-sans-italic.woff2",
+  "ui/www/assets/fonts/cyrillic-ext/noto-sans-mono.woff2",
+  "ui/www/assets/fonts/cyrillic-ext/noto-sans.woff2",
+  "ui/www/assets/fonts/cyrillic/OFL-NotoSans.txt",
+  "ui/www/assets/fonts/cyrillic/OFL-NotoSansMono.txt",
+  "ui/www/assets/fonts/cyrillic/noto-sans-italic.woff2",
+  "ui/www/assets/fonts/cyrillic/noto-sans-mono.woff2",
+  "ui/www/assets/fonts/cyrillic/noto-sans.woff2",
+  "ui/www/assets/fonts/greek-ext/OFL-NotoSans.txt",
+  "ui/www/assets/fonts/greek-ext/OFL-NotoSansMono.txt",
+  "ui/www/assets/fonts/greek-ext/noto-sans-italic.woff2",
+  "ui/www/assets/fonts/greek-ext/noto-sans-mono.woff2",
+  "ui/www/assets/fonts/greek-ext/noto-sans.woff2",
+  "ui/www/assets/fonts/greek/OFL-NotoSans.txt",
+  "ui/www/assets/fonts/greek/OFL-NotoSansMono.txt",
+  "ui/www/assets/fonts/greek/noto-sans-italic.woff2",
+  "ui/www/assets/fonts/greek/noto-sans-mono.woff2",
+  "ui/www/assets/fonts/greek/noto-sans.woff2",
+  "ui/www/assets/fonts/latin-ext/OFL-NotoSans.txt",
+  "ui/www/assets/fonts/latin-ext/OFL-NotoSansMono.txt",
+  "ui/www/assets/fonts/latin-ext/noto-sans-italic.woff2",
+  "ui/www/assets/fonts/latin-ext/noto-sans-mono.woff2",
+  "ui/www/assets/fonts/latin-ext/noto-sans.woff2",
+  "ui/www/assets/fonts/latin/OFL-NotoSans.txt",
+  "ui/www/assets/fonts/latin/OFL-NotoSansMono.txt",
+  "ui/www/assets/fonts/latin/noto-sans-italic.woff2",
+  "ui/www/assets/fonts/latin/noto-sans-mono.woff2",
+  "ui/www/assets/fonts/latin/noto-sans.woff2",
+  "ui/www/assets/fonts/math/OFL-NotoSansMath.txt",
+  "ui/www/assets/fonts/math/noto-sans-math.woff2",
+  "ui/www/assets/fonts/vietnamese/OFL-NotoSans.txt",
+  "ui/www/assets/fonts/vietnamese/OFL-NotoSansMono.txt",
+  "ui/www/assets/fonts/vietnamese/noto-sans-italic.woff2",
+  "ui/www/assets/fonts/vietnamese/noto-sans-mono.woff2",
+  "ui/www/assets/fonts/vietnamese/noto-sans.woff2",
+]
+SPDX-FileCopyrightText = "2022 The Noto Project Authors"
+SPDX-License-Identifier = "OFL-1.1"

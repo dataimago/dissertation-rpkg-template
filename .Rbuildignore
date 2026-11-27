@@ -13,3 +13,7 @@
 ^ui/www/\.quarto$
 ^ui/www/\.dataimago$
 ^LICENSE\.md$
+^ui/www$
+^writing$
+^REUSE\.toml$
+^LICENSES$
